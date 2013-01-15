@@ -1,0 +1,52 @@
+%Python is an interpreted, interactive, object-oriented programming language. It incorporates modules, exceptions, dynamic typing, very high level dynamic data types, and classes. Python combines remarkable power with very clear syntax. It has interfaces to many system calls and libraries, as well as to various window systems, and is extensible in C or C++. It is also usable as an extension language for applications that need a programmable interface. Finally, Python is portable: it runs on many Unix variants, on the Mac, and on PCs under MS-DOS, Windows, Windows NT, and OS/2.
+Python ist eine dynamische "`High-Level"' Programmiersprache, die den interpretierten Skriptsprachen zugeordnet und oft mit Perl, Ruby, Scheme oder Java verglichen wird. Sie wurde mit dem Ziel entwickelt, möglichst einfach und übersichtlich zu sein, gleichzeitig aber nicht an Flexibilität und funktionaler Skalierbarkeit einbüßen zu müssen.
+
+Die Syntax ist sehr übersichtlich gehalten, was unter anderem durch zwingende Einrückung des Quelltextes erreicht wird (siehe Listing \ref{python:syntax}). Grammatikalisch ist auf wenige Schlüsselwörter optimiert worden\footnote{Mit Python 2.5 sind das 31 Schlüsselwörter. Zum Vergleich C/C++ mit 63 und Java mit 53 Schlüsselwörtern.}.
+
+\begin{lstlisting}[style=example, caption={Python Syntax}, label=python:syntax]
+def faculty(n):
+    if n == 0:
+        return 1
+    else:
+        return n * faculty(n - 1)
+\end{lstlisting}
+
+Python arbeitet mit dynamischer Typverwaltung. Variablen haben somit keinen festen Typ. 
+Anders als bei statischer Typverwaltung wie in Compilersprachen, wird der Typ zur Laufzeit 
+und abhängig vom Einsatz der Variable bestimmt. Das erspart dem Entwickler vieles an 
+zusätzlicher Arbeit, da der Quelltext, durch die Ersparnis der explizit anzugebenden 
+Typinformation, übersichtlicher und kürzer wird. Weiters können Funktionen, die ja ohne 
+Typinformation geschrieben sind, auf vielen verschiedenen Objekttypen wiederverwendet werden. 
+Man spricht auch von Duck Typing: {\itshape"`If it looks like a duck and quacks like a duck, it must be a duck"'} \cite{python:duck}.
+Die Kehrseite der Medaille sind natürlich Performanceeinbußen.\cite{plconcepts}, \cite{Calle}, \cite{python:performance}
+
+In Programmiersprachen wie C oder C++ ist der Programmierer für Speicherreservierung und Spreicherfreigabe selbst verantwortlich. Unter C wird das z.B. mit den Funktionen \verb|malloc()| und \verb|free()| durchgeführt. Pythons Strategie hiezu hat den Namen "`Referenzzähler"' (reference counting). Das Prinzip ist einfach: jedes Objekt enthält einen Zähler, der mit jeder Referenz auf das Objekt inkrementiert wird. Wird eine Referenz wiederum gelöscht, wird der Zähler dekrementiert. Erreicht dieser den Wert Null, kann der Speicher freigegeben werden.
+
+Der Pythonentwickler ist an kein Programmierparadigma gebunden. Auch wenn Python sich als objektorientierte Sprache vorstellt, ist die Entwicklung mit verschiedenen Programmierstilen möglich. Das erlaubt Flexibilität bei der Erstellung von Programmen. Die Entwicklung ist durch die Sprache nicht an ein Paradigma gebunden, sondern kann das, für die momentane Situation effizienteste Paradigma wählen, eventuell sogar verschiedene Paradigmen anwenden. Das macht natürlich Python für den Unterricht sehr interessant.
+
+Die Python-Distribution wird mit einer Standardbibliothek in Form von Python-Modulen ausgeliefert, die von der Community als "`batteries included"' bezeichnet wird. Die Komplexität wurde aus der Sprache entfernt, die Spezialisierung liegt in den Bibliotheken. Das Spektrum reicht von Bibliotheken zur \GUI\/-Gestaltung über Multimedia und Spielentwicklung bis hin zu verteilten Systemen \cite{python:linkweiler}. Großes Augenmerk wird hierbei auf Webapplikationsentwicklung gelegt, die gängigen Protokolle und Standards sind plattformunabhängig verfügbar\footnote{TCP/IP, FTP, NNTP, HTTP, POP, SMTP, MAPI, SGML, XML, CGI, ... }. Findet der Entwickler die gewünschte Funktionalität nicht in den Standardbibliotheken, kann er das gewünschte Modul aus einer großen Sammlung von Drittanbietern wählen. Die Module der Standardbibliothek können mit C oder Python erweitert werden, auf gleiche Art können eigene Module entwickelt werden.
+
+\begin{lstlisting}[style=example, caption={Lesen einer Website durch Verwendung eines Moduls der Standardbibliothek}, label=python:webread]
+import urllib
+data = urllib.urlopen("http://www.technikum-wien.at/")
+text = data.read()
+data.close()
+\end{lstlisting}
+
+Python ist portierbar und somit plattformunabhängig. Der Python Interpreter kann auf jeder beliebigen Architektur installiert werden, wenn es dafür einen C Compiler gibt. Die populärsten Betriebssysteme mit verfügbaren Python Interpretern sind Linux, \BSD\/, Mac OS X, Solaris und Microsoft Windows. Für diese gibt es auch sehr gut gewartete Bibliotheken.
+
+Die Python Implementierung steht unter einer Open-Source Lizenz. Der Quelltext ist frei verwendbar und verteilbar, auch für den kommerziellen Gebrauch. Die Python Lizenz\footnote{Python Lizenz: http://www.python.org/psf/license/} wird von der \PSF\/\footnote{Python Software Foundation: http://www.python.org/psf/} verwaltet. Hinter Python steht natürlich eine Open-Source Community, die regelmäßig, aktiv und ambitioniert ihr Produkt verbessert. Jeder kann sich an der Entwicklung beteiligen. Internationale Mailinglisten, Foren, Arbeitsgruppen und Konferenzen werden auf den Internet-Seiten der \PSA\/\footnote{Python Software Activity: http://www.python.org/psa/} organisiert. Eine wichtige Rolle in der Entwicklung von Python trägt die \SIG\/\footnote{Special Interest Groups: http://www.python.org/community/sigs/}.
+
+Es gibt zahlreiche Projekte, die mit Python am Markt und in der Industrie erfolgreich ihre Arbeit verrichten. Zu den größten Referenzen zählen Firmen wie Google, Yahoo, \NASA\ und viele andere\footnote{Erfolgsgeschichten: http://www.python.org/about/success/}.
+
+Peter Norvig, "`director of search quality"' bei Google meint:
+\begin{quote}
+{\itshape "'Python has been an important part of Google since the beginning, and remains so as the system grows and evolves. Today, dozens of Google engineers use Python, and we're looking for more people with skills in this language."'}
+\end{quote}	
+
+Bei Google ist Python ein wichtiges Werkzeug; Google sucht immer wieder nach talentierten Entwicklern, in deren Portfolio Python zu finden ist.
+
+Python ist zu einer bedeutenden Größe in der Softwareindustrie geworden.
+
+
+        

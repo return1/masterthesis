@@ -1,0 +1,98 @@
+%Paper über Zope(2) Projekt an schule: http://tech.canterburyschool.org/tech/PyCon04Paper
+%naja nicht so geeignet.
+
+%Anhand einer Implementierung kann man Studenten in Form eines kleinen Projektes den professionellen Softwareentwicklungsprozess erleben lassen. Wichtigkeit der Versionierung (Nachvollziehbarkeit) jeder Implementierung hervorheben. Heutzutage kommt man ohne Code-Repository und sinnvolle Teststrategie in der Implementierung nicht weit. Die Rahmenbedingungen hierfür werden in diesem Kapitel behandelt.
+
+Anhand einer Implementierung kann man Studenten in Form eines Projekts den professionellen Softwareentwicklungsprozess erleben lassen. Was ist dabei zu beachten? Wie kann der Unterricht gestaltet werden? Was sollten die Studenten daraus mitnehmen? Die letzte Frage erläutert \cite{misc:803190} schon im Jahre 1978. Ein Student sollte nach Abschluss der Lehrveranstaltung folgende Kenntnisse besitzen:
+
+\begin{quote}
+{\itshape 
+	\begin{itemize}
+		\item "'Do Software Development by accurately using at least one state-of-the-art method in each of the four major areas of analysis, design, implementation, and testing;
+		\item Test and Measure software by devising and carrying out well-designed experiments that will validate a software system's quality (e.g., reliability, efficiency) and that will identify any parts of the system needing work;
+		\item Manage effectively a moderate sized project (3-7 people for 1-2 years)
+		\item Communicate effectively with users, managers, and other technical people;
+		\item Learn new software engineering methods rapidly, and be able to keep up with relevant advances in computer science."'
+	\end{itemize}
+}
+\end{quote}
+
+Wenngleich die zitierte Literatur schon veraltet erscheint, kann sie doch auf erstaunlich präzise Art vermitteln, was bei der Gestaltung einer solchen Lehrveranstaltung wichtig ist: 
+
+\begin{itemize}
+	\item Methodik und Werkzeuge (z.B. Testen)
+	\item Kommunikation, Projektmanagement
+	\item Motivation bzw. Wecken des Forschergeistes
+\end{itemize}
+%TODO eingehen auf die Punkte?
+Das Schlüsselwort, mit dem alle diese Ziele erreicht werden können, heißt \emph{Praxisbezug}. \cite{misc:swe} hat untersucht, unter welchen Kriterien Studenten eine Lehrveranstaltung als praxisnahe empfinden (vgl. Sinnkriterium der fundamentalen Idee nach \cite{schwill1}):
+
+\begin{description}
+	\item[Lernhandeln] Die Veranstaltung bietet viel Freiraum für den eigenen Beitrag.
+	\item[Überraschungseffekt] Die Lehrveranstaltung bietet ein neues oder im Ausbildungskontext überraschendes Erlebnis für die Teilnehmer.
+	\item[Authentizität und Nutzen] Die jeweiligen Lehrinhalte sind für die Studenten nachvollziehbar praxisrelevant. Authentizität entsteht insbesonders, wenn der Lektor über eigene Praxiserfahrung verfügt und über diese berichten kann. Letzthin kommt man um die Erkenntnis nicht herum, dass nur solche Personen Software Engineering authentisch und praxisnahe unterrichten können, die selbst in der Praxis Software Engineering betrieben haben oder betreiben.
+\end{description}
+
+\cite{misc:swe} zählt Möglichkeiten auf, Praxisnähe im Unterricht zu vermitteln.
+
+\begin{description}
+	\item[Echte Kunden, echte Anwendung] Für Praxisnähe spricht natürlich ein Beispiel aus der Praxis. Studenten profitieren von echten Kunden mit echten Anwendungen. Wobei es kaum möglich ist, im Hochschulbetrieb mit kommerziellen Kunden im Unterricht umzugehen. Es gibt jedoch Erfolge mit Non-Profit-Organisationen. Die Schwierigkeit besteht darin, Jahr für Jahr Kunden vom ihrem gewonnenen Mehrwert zu überzeugen. Ein Argument dafür wäre Networking mit den Studenten. Begabte Studenten können quasi "'gescoutet"' werden. Die Hauptaufgabe des Lektors sollte die Gestaltung des Curriculums sein. Dieser wäre aber mit der jährlichen Kooperation mit realen Kunden überfordert. Abhilfe könnte hier eine Unterstützung von Seiten des Unterrichtsministeriums sein, z.B. mit Förderungen für kooperationswillige Firmen bzw. Schaffen von Strukturen für die Abwicklung solcher Lehrveranstaltungen. Momentan ist es eher üblich, den Kunden selbst in einer Art Rollenspiel zu vertreten. Dabei treten aber Glaubwürdigkeits- und Akzeptanzprobleme auf.
+	\item[Kundengespräche] Eng mit dem ersten Punkt dieser Aufzählung verknüpft, sind die Kundengespräche. Dabei können parallel dazu gleich professionelle Gesprächsstrategien gelehrt werden. Die Studenten lernen aus den Informationen des Kunden das Essentielle herauszufiltern. Das Projektteam muss geschlossen, aber mit für den Kunden übersichtlicher Struktur auftreten. Hierbei können auch Gespräche mit unterschiedlichen Kundengruppen trainiert werden, beispielsweise ein Meeting mit der technischen Abteilung oder mit dem Geschäftsführer selbst. Letzteres wird bei tatsächlichen Kunden wohl eher unrealistisch sein.
+	\item[Professionalität in der Form] Das korrekte Erbringen z.B. eines Angebotes, ist nicht nur in inhaltlicher Form, sondern auch als Erscheinungsbild in der Praxis wichtig. Ergebnisse müssen übersichtlich, und für den Kunden ersichtlich, die relevante Botschaft übermitteln.
+	\item[Kundenorientiertes Denken] Was dem Team wichtig ist, ist meist klar. Doch was ist dem Kunden wichtig? Aus den Gesprächen soll hier eine Abstrahierung stattfinden. Das Projekteam, das wohl eher technisch denken wird, muss sich hier in die Denkweise des Kunden hineinversetzen und diese verstehen. Danach müssen die Studenten diese Erkenntnis mit ihren Zielen oder Vorgaben abstimmen und daraus einen Kompromiss schließen. Einerseit muss der Kunde befriedigt werden, aber der Spaß an der Arbeit darf nicht verloren gehen!
+	\item[Komplexere Projekte und Reverse Engineering] Beim Reverse Engineering wird eine bestehende Software analysiert und rekonstruiert bzw. erweitert oder verbessert.
+	\begin{quote}
+	{\itshape "'Programming from scratch: Most courses teach students to code from scratch, rather than by modifying existing programs or by working from model solutions. Moreover, students rarely read good programs. It's as if we asked students to write good prose without first reading good prose [..] Modify and combine programs as well as creating them. Teach students to work with program structures devised by others, to reuse components, to adhere to standards, and to value good documentation."'}\cite{336592}
+	\end{quote}
+	
+	Nicht nur das Erstellen einer Software von Beginn an, sondern auch das Weiterverwenden und Verbessern existierender Software sollte einem Studenten vermittelt werden. Gute Software kann analysiert und Beispielen schlechter Software gegenübergestellt werden. Natürlich fehlt in einem Semester die Zeit für ein großes Softwareprojekt. Eine Möglichkeit besteht jedoch darin, das Projekt über eine längere Laufzeit zu planen und das Projektteam (die Studenten) immer wechseln zu lassen. Hier bleibt die Frage offen, wie überschaubar und kontrollierbar dieser Ablauf für den Lektor wäre. \cite{misc:reverseengineering} beschreibt die Erfahrungen bei der Durchführung eines Reverse-Engineering Projekts im Hochschulbetrieb:
+	
+	\begin{quote}
+	{\itshape "'[...] bieten gerade Projekte, die auf existierender Software aufbauen eher praxisorientierte
+Bedingungen. Sie sind ökonomischer, da sie den Aufwand, der in existierender
+Software steckt (Implementations- und Testaufwand), nachnutzen. Damit ist die Bewältigung
+komplexer Software auch unter Hochschulbedingungen möglich."'}
+	\end{quote}
+	
+	Und hier kommt \Zope\ wieder ins Spiel. Eine Neuentwicklung ist ebenso möglich, wie Reverse Engineering einer bestehenden Software. Weiters kann \Zope\ selbst analysiert werden, um die internen Funktionalitäten und Abläufe besser zu verstehen. Oder besser gesagt, um zu lernen, wie spezifische Problemstellungen von anderen Softwareentwicklern umgesetzt werden.
+	
+	\item[Harte Termine] Die gestellte Aufgabe muss zu einem festgelegten Termin erfüllt werden. Der Termin sollte so gewählt werden, dass sich mit durchschnittlichem Aufwand der Gesamt- oder Teilprojektumfang nicht realisieren lassen würde. So müssen die Studenten Abstriche (Mehrarbeit, Qualitäts- oder Funktionalitätseinbußen,...) machen, um die Deadline halten zu können. Die daraus entstanden Konsequenzen werden diskutiert und müssen auch vor dem Kunden glaubhaft gerechtfertigt werden können.
+	\item[Professioneller Werkzeugeeinsatz] Arbeitsweise, Werkzeuge und Frameworks, die in der Industrie Verwendung finden, fördern das Verständnis der Praxisrelevanz bei den Studenten. Wobei hier wiederum das Hauptaugenmerk mehr auf die fundamentalen Konzepte zu legen ist, als auf Modeerscheinungen. Das zu erkennen,  erfordert ein hohes Maß an Wissen und Erfahrung in der entsprechenden Materie. Somit sollte keine Spezialisierung auf ein Framework oder Tool stattfinden, sondern dieses als Werkzeug zum Curriculum betrachtet werden, dessen Inhalte es zu lehren gilt. \Zope\ bietet, neben einfacher Installation und Wartung im Universitätsbetrieb, den Zugang zu komplexerer softwaredidaktischer Thematik, ohne sich zu stark auf das Framework zu spezialisieren. Die Infrastruktur kann also einfach eingerichtet und jedem Studenten, auch für den privaten Gebrauch zu Hause, verfügbar gemacht werden.
+	\item["'Dirty Tricks"'] \cite{misc:swe} schreibt, dass künstlich herbeigeführte Serverabstürze, korrupte Code Repositories usw. helfen, realitätsnahen Praxisbezug herzustellen. Diese Methode erscheint fast gehässig, zumal die Studenten sicher genug mit eigenen Problemen innerhalb des Projekts zu tun haben. Trotzdem ist eine Reflexion der erlebten Komplikationen sowohl technischer als auch sozialer Natur sicherlich lehrreich.
+\end{description}
+
+%\textbf{Verteiltes Wissen}
+%Erfolg im Umgang mit Unterschiedlichen Vorkenntnissen
+
+Da der Fokus eines solchen Projekts nicht primär auf der Programmierung liegt, sollten die notwendigen Kenntnisse schon vermittelt worden sein. Wird der Lektor trotzdem mit unterschiedlichen Wissensständen der Studenten konfrontiert, muss diesen der klare Mehraufwand kommuniziert werden. Eventuell müssen sich die Betroffenen eine Einführung in die Programmierung selbst erarbeiten, wenn das notwendig erscheint. Bei einer Sprache wie Python wird das natürlich um ein Vielfaches erleichtert, wie ab Kapitel \ref{sec:firstlanguage} ausführlich diskutiert wurde. Trotzdem sollte beachtet werden, dass Studenten mit Erfahrung in der Programmierung bestimmt mehr aus dem Projekt mitnehmen, da sie sich durch ihr vorhandes Wissen, vollständig auf das Erlernen von Methodik und Werkzeugen konzentrieren können.
+
+Die Aufgaben in der Projektarbeit können natürlich je nach Fähigkeiten der Studenten unterschiedlich verteilt werden, jedoch muß darauf geachtet werden, dass keine "'Trittbrettfahrer"' mitgeschleppt werden. Ein weiteres Hilfsmittel zur Wissensverteilung bei unterschiedlichem Know-how in Projektgruppen ist das Pair-Programming aus dem \XP\/ \cite{318762}, einem Vorgehensmodell in der Softwarentwicklung. Dabei sitzen immer zwei Studenten gemeinsam vor einem Bildschirm, um eine Aufgabe zu lösen. Einer von beiden kontrolliert die Eingabegeräte, der andere sieht über die Schulter, schlägt Fragen nach oder dokumentiert die momentanen Arbeitsschritte.
+
+\begin{quote}
+{\itshape "'Our experiments and experiences with pair-programming in the computer science classroom have been favorable. Ultimately, students are able to complete programming assignments faster and with higher quality. Students communicate with each other more, appear to learn faster, and are happier and less frustrated. The temptation to cheat is greatly reduced. Additionally, the workload of the educators is reduced."'}\cite{364614}
+\end{quote}
+
+Zahlreiche Studien, wie \cite{563353}, \cite{misc:xpstuff} belegen den positiven Effekt von Pair-Programming im Unterrichtseinsatz.
+
+%-Teile aus XP vostellen! Coderepos, Pair Programming, Testing
+
+%Soft-skills, nach sdm_pub
+
+%-Design - implementierung - test
+%-Software Life Cycle
+
+%Lernen von der Community
+%Opensource
+
+Der Autor kann die Erkenntnisse aus der Literatur bestätigen, da er selbst an der \FH\ Technikum Wien, im Zuge der Spezialisierungsveranstaltung Informationsmanagement, mit sechs weiteren Studenten in ein Projekt involviert war.
+Vision des Projekts war ein einfach bedienbares, web-basiertes Projektmanagement-Tool, realisiert mit dem Fokus auf offene Standards.
+
+Das Projekt gliederte sich in zwei Phasen: das Vorprojekt und das Hauptprojekt. Die Projektdauer betrug zwei Semester. Im Zuge des Vorprojekts wurden vor allem eine umfangreiche Marktstudie durchgeführt, die anwendbare Technik evaluiert, die erwünschten Anforderungen spezifiziert und ein Pflichtenheft erstellt. Dieses stellte die Grundlage für die Aufgaben im Hauptprojekt dar. Auch wurde das Vorprojekt selbst projektmanagementorientiert durchgeführt und dahingehend genutzt, einiges über Abläufe und Probleme in einem konkreten Projekt zu erfahren.
+
+Im Vorprojekt, der Analysephase des Gesamtprojekts, wurde mit einem Unternehmen kooperiert, welches Interesse am eventuell entstehenden Produkt äußerte. Bei einem Meeting in den Räumlichkeiten der Firma wurde die Produktidee präsentiert und Feedback eingeholt. Die Praxisrelevanz war für das Team kein Thema, sie war offensichtlich vorhanden. Die Motivation war dementsprechend in hohem Maße gegeben. In dieser Phase wurde, bis auf einen Mini-Prototypen, nichts entwickelt. Die Arbeit wurde hauptsächlich auf die Vorgehensweise in der Analysephase, die Kommunikation und Abstimmung im Team und das Projektmanagement fokusiert. Die Probleme, die dabei auftraten, waren sehr lehrreich, obwohl alle involvierten Studenten nebenher berufstätig waren und somit dementsprechende Erfahrungen schon gesammelt hatten.
+
+Aus den Erfahrungen des Vorprojekts wurde für das Hauptprojekt die Erstellung eines Prototypen für ein Projektmanagementtool mit zwei integrierten lokalen Diensten und einem integrierten externen Dienst, sowie der Entwurf und die Realisierung einer Schnittstelle nach außen als Projektziel definiert. Die ursprüngliche Idee, eine fertige Software zu entwickeln, wurde aus Komplexitätsgründen, die sich erst im Verlauf der Analysephase ergaben, eingestellt. Selbst die Entwicklung eines Webservice-orientierten Prototypen geriet unter Zeitdruck, und so wurde die Funktionalität der \GUI\ stark minimiert.
+
+Im Hauptprojekt wurde primär entwickelt. Das Team bestand aber nur aus zwei berufstätigen Entwicklern, weshalb die Wissensverteilung nicht homogen war. Durch den Einsatz von Pair-Programming konnte der Wissensstand insofern angeglichen werden, als eine sinnvolle Teameinteilung und Entwicklung möglich wurde.
+
+Mit Ende der zwei Semester und mit Abschluss der Lehrveranstaltung wurde die Entwicklung des Prototypen fertiggestellt. Es wäre durchaus interessant, diesen Prototypen in den nachfolgenden Semestern zu behandeln. Kann der Prototyp weiterentwickelt oder verbessert werden? Welche Fehler wurden bei der Entwicklung gemacht? Eventuell kann die gleiche Funktionalität auf Basis einer anderen Technologie implementiert werden. Möglichkeiten gäbe es viele. Die Frage ist jedoch, welche Studentengruppe motiviert wäre, sich genau mit dieser Thematik auseinanderzusetzen, denn wie schon weiter oben beschrieben, ist die Motivation für den Lerneffekt wichtig.

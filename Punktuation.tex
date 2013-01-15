@@ -1,0 +1,212 @@
+\documentclass[12pt, oneside,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{TW_corp_ID}
+%\definecolor{grau}{gray}{0.50}
+\definecolor{grau2}{gray}{0.95}
+
+\usepackage{bibgerm}
+%\renewcommand\refname{TEST} funkt nicht?? title des literaturverzeichnisses zu ändern!
+\bibliographystyle{geralpha}
+
+
+\usepackage{listings}
+\renewcommand\lstlistingname{Listing}
+\renewcommand\lstlistlistingname{Listings}
+\lstdefinestyle{example} { %code listings: beispiele
+		%language=Python,
+    numbers=left, numberstyle=\scriptsize, stepnumber=1, numbersep=8pt,
+    basicstyle=\ttfamily\footnotesize,
+		backgroundcolor=\color{grau2},
+		captionpos=b,
+		showstringspaces=false,
+		tabsize=4
+		%commentstyle=\color{blue},%  Kommentar blau
+		%keywordstyle=\color{red},%   Schlüsselwörter rot
+		%stringstyle=\color{green} % typewriter type for strings
+}
+\lstdefinestyle{interpreter} {%inline interpreter beispiele
+		numbers=none,
+		tabsize=4,
+		basicstyle=\ttfamily\footnotesize,
+		moredelim=[l][{\bfseries}]{>>>},
+		moredelim=[l][{\bfseries}]{...}
+}
+
+% sollte als letztes Packet geladen werden (wenn glossary nicht verwendet wird ;) )
+\usepackage{hyperref} 
+
+%glossar. um die verlinkung durch hyperref zu garantieren, muss dieses packet NACH hyperref geladen werden.
+\usepackage[
+style=super,
+%hypertoc=true, %erscheint im inhaltsverzeichnis
+hyper=true, % einträge verlinken
+number=none, % keine pagerefs
+header=none,
+acronym=true %dieser Parameter ist der wichtige
+]{glossary}
+\setacronymnamefmt{\gloshort} %um das abkürzungsverzeichnis korrekt zu formatieren
+\renewcommand{\acronymname}{Verwendete Abkürzungen}
+%\makeglossary
+\makeacronym
+
+\begin{document}
+\pagestyle{TWcorpID}
+\input{abkuerzungen}
+
+\Diplom{$\ll$Python und Zope als Unterrichtswerkzeuge$\gg$}{Dominique Lederer}{Strassergasse 8-12/2/3\newline1190 Wien}{Dipl.-Ing. Dr. Karl M. Göschka}{Dipl.-Ing. (FH) Alexander Weiss}{Wien}{30.5.2007}{Informations- und Kommunikationssysteme}
+
+\pagenumbering{Roman}
+
+\input{Chapters/Abstract}
+
+\newpage
+%\section*{Verwendete Abkürzungen}
+\rkopf[]{Verwendete Abkürzungen}
+\printacronym 
+
+%\printglossary 
+%\glossary{
+%name=Individualsoftware,
+%description={Individualsoftware zeichnet sich dadurch aus, dass sie nur für einen oder für wenige Anwendungsfälle geschaffen wird.}
+%}
+
+\newpage
+\section*{Eidesstattliche Erklärung}
+\rkopf[]{Eidesstattliche Erklärung}
+"'Ich erkläre hiermit an Eides statt, dass ich die vorliegende Arbeit selbständig angefertigt habe. Die aus fremden Quellen direkt oder indirekt übernommenen Gedanken sind als solche kenntlich gemacht. Die Arbeit wurde bisher weder in gleicher noch in ähnlicher Form einer anderen Prüfungsbehörde vorgelegt und auch noch nicht veröffentlicht."'\vspace{1cm}\\
+
+\newpage
+\pagenumbering{arabic}
+\rkopf[]{Inhaltsverzeichnis}
+
+\tableofcontents
+\newpage
+
+%%%
+\section{Einleitung}
+\rkopf[]{Einleitung}
+
+%TODO Vor Fertigstellung\footnote{Wenn in dieser Arbeit die männliche Form verwendet wird, sind Frauen gleichermaßen gemeint, sofern nichtexplizit Gegenteiliges behauptet wird.} der Arbeit diese Fußnote an geeigneter Stelle anbringen.
+
+	\subsection{Motivation und Zielsetzung}
+		\input{Chapters/Motivation}
+
+	\subsection{Aufbau der Arbeit}
+		\input{Chapters/Aufbau}
+	
+  \subsection{Fundamentale Ideen als Unterrichtsprinzip}
+  	\input{Chapters/Fundamentale_Ideen}
+  
+  %\subsection{Informatik im Unterricht}
+  %Status quo der gelehrten Inhalte bezugnehmend auf \cite{schwill1}. Abgrenzung spezifischer und nicht-spezifischer Wissenstransfer. 
+  
+  %"Die Studenten stehen ratlos vor einer Unmenge von Einzelheiten, die weder zu großen Ideen noch zu alltäglichem Denken eine Beziehung erkennen lassen."
+
+	\subsection{Programmiersprachen im Unterricht}
+		\label{kapitel:Programmiersprachen}
+		\input{Chapters/Programmiersprachen}
+	
+	\subsection{Grundlagen Python}						
+		%\subsubsection{Was ist Python}
+			\label{kapitel:Was_ist_Python}
+			\input{Chapters/Was_ist_Python}
+		\subsubsection{Geschichte und Entwicklung}
+			\input{Chapters/Python_Geschichte}
+		\subsubsection{High-Level-Sprache und Skriptsprache}
+			\input{Chapters/HLL}		
+	
+	\subsection{Grundlagen Zope}
+		\label{sec:Grundlagen_Zope}
+		%\subsubsection{Was ist Zope}
+		\input{Chapters/Was_ist_Zope}				
+		
+\newpage
+\section{Python lehren}
+\rkopf[]{Python lehren}
+	\subsection{Python als erste Programmiersprache?}
+		\label{sec:firstlanguage}
+		\input{Chapters/Pythonfirst}				
+ 
+	\subsection{Programmierparadigmen}
+		\input{Chapters/Paradigmen}				
+	
+	\subsection{Algorithmen}
+		\input{Chapters/Algorithmen}
+		
+	\subsection{Python in Fachgegenständen}
+		\input{Chapters/Fachgegenstaende}
+
+	\subsection{Open-Source und Community}
+		\input{Chapters/OpenSource}
+
+	\subsection{Material, Werkzeuge und Frameworks für den Schuleinsatz}
+		\label{kapitel:material}
+		\input{Chapters/Material}
+	
+\newpage	
+\section{Softwareentwicklung im Unterricht mit Zope}
+\rkopf[]{Softwareentwicklung im Unterricht mit Zope}	
+\label{sec:zope}
+		
+	\subsection{Komponentenarchitektur}
+		\input{Chapters/Komponentensysteme}
+	
+	\subsection{ZODB}
+		\label{sec:ZODB}
+		\input{Chapters/ZODB}
+		
+  \subsection{Softwareentwicklungsprozess erleben}
+  	\input{Chapters/Softwareentwicklungsprozess_erleben}
+  	
+  \subsection{Testen und Dokumentieren von Software}
+  	\input{Chapters/Testen}
+  
+  \newpage	
+  \subsection{Beispielimplementierung}
+  \label{kapitel:Beispielimplementierung}
+  	\input{Chapters/Implementierung}
+  	
+  \subsection{Die Zukunft von Zope}
+  \label{kapitel:zukunftzope}
+  \input{Chapters/Die_Zukunft_von_Zope}  
+  
+	\subsection{Alternative Python Frameworks}
+	\input{Chapters/Alternative_Python_Frameworks}  
+
+\newpage
+\section{Diskussion}
+\rkopf[]{Diskussion}	
+	\subsection{Zusammenfassung und Bewertung}
+		\input{Chapters/Zusammenfassung}
+		
+	\subsection{Kritik}
+		\input{Chapters/Kritik}
+	
+	\subsection{Nächste Schritte}
+		\input{Chapters/Ausblick}
+	
+	\subsection{Ähnliche Arbeiten}
+		\input{Chapters/Aehnliche_Arbeiten}
+
+%%%
+
+\newpage
+%\section*{Literaturverzeichnis}
+\rkopf[]{Literatur}
+\bibliography{literatur}
+
+\newpage
+\rkopf[]{Abbildungsverzeichnis und Tabellenverzeichnis}
+\listoffigures
+\listoftables
+\lstlistoflistings % code listings
+
+\newpage
+\section*{Anhang}
+\rkopf[]{Anhang}
+\begin{appendix}
+	\input{Chapters/Anhang}  
+\end{appendix}
+
+
+\end{document}

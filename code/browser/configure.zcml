@@ -1,0 +1,40 @@
+<configure xmlns="http://namespaces.zope.org/browser">
+
+<addMenuItem
+      class="..entry.Entry"
+      title="SGS Entry"
+      permission="zope.ManageContent"
+      view="AddSGSEntry.html"
+      />
+
+<addform
+      label="Add SGS Entry"
+      name="AddSGSEntry.html"
+      schema="..interfaces.IEntry"
+      content_factory="..entry.Entry"
+      class="zope.app.file.browser.image.ImageAdd"
+      permission="zope.ManageContent"
+      />
+
+<containerViews
+      for="..interfaces.IEntryContainer"
+      contents="zope.ManageContent"
+      add="zope.ManageContent"
+      />
+
+<view
+      for="sgs.entry.interfaces.IEntry"
+      name="getEntryNavigation"
+      class=".EntryNavigation"
+      permission="zope.View"
+      />
+
+<page
+	for="*"
+	name="test.html"
+	template="test.pt"
+	permission="zope.View"
+	/>
+
+</configure>
+

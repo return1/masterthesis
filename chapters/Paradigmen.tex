@@ -1,0 +1,316 @@
+%TODO {\color{red} Paper download: http://ieeexplore.ieee.org/xpl/freeabs\_all.jsp?arnumber=839221, und http://portal.acm.org/citation.cfm?id=201998.202006}
+
+Das Wort \textbf{Paradigma} kommt aus dem Griechischen und bedeutet Vorbild, Beispiel, Muster oder Abgrenzung. Es hat viele unterschiedliche Bedeutungen, die sich in der Wissenschaft, der Linguistik, Organisationstheorie etc. wiederfinden. Für diese Arbeit und dieses Kapitel ist das Programmierparadigma interessant:
+
+Ein \textbf{Programmierparadigma} ist das einer Programmiersprache oder Programmiertechnik zugrundeliegende Prinzip. Es ist eine Sichtweise, die zur Lösung eines Problems mittels einer Programmiersprache eingenommen wird.\cite{misc:multiparadigm}
+
+Python ist primär eine objektortientierte Sprache, unterstützt also das objektorientierte Softwareparadigma:
+
+\begin{quote}
+{\itshape "'Python is a dynamic object-oriented programming language that can be used for many kinds of software development."'}\cite{python:website}
+\end{quote}
+
+Jedoch ist der Entwickler bei der Verwendung von Python an kein spezielles Paradigma gebunden. Python kann somit als \textbf{Multiparadigmen-Sprache} bezeichnet werden. 
+
+In diesem Kapitel wird auf folgende Paradigmen kurz eingegangen und deren Realisierung mit Python erläutert:
+
+\begin{itemize}
+	\item Imperative Programmierung
+		\begin{itemize}
+			\item Prozedurale Programmierung
+			\item Modulare Programmierung
+			\item Objektorientiere Programmierung
+		\end{itemize}
+	\item Deklarative Programmierung
+		\begin{itemize}
+			\item Funktionale Programmierung
+  		\item Logische Programmierung
+  	\end{itemize}
+  \item Weitere Paradigmen
+    \begin{itemize}
+		  \item Design by Contract
+		  \item Aspektorientierte Programmierung
+		  %\item Komponentenortientierte Programmierung
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Programmierparadigmen im Unterricht}
+
+Nach \cite{misc:placer} und \cite{misc:westbrook} sind Multiparadigmensprachen für den Unterricht gut geeignet. Es ist wichtig den Studenten in kein Korsett hineinzuzwingen, sondern ein breites Schema an Möglichkeiten zur kreativen Entfaltung anzubieten, denn
+
+\begin{quote}
+{\itshape "'verschiedene Menschen nehmen zur Lösung von gleichen Aufgaben unterschiedliche Sichtweisen ein, und ebenso kann es sein, dass ein Mensch für unterschiedliche Aufgaben verschiedene Lösungsansätze verfolgt. Für die wenigsten Probleme gibt es die optimale Lösung, und so empfiehlt es sich, der- oder demjenigen, der das Problem löst, die Wahl zu überlassen, wie er oder sie am besten mit einer Aufgabe umgeht. Daher ist es für den praktischen
+Einsatz von Programmiersprachen notwendig, diese unterschiedlichen Sichtweisen, die zu verschiedenen Lösungsstrategien führen, in geeigneter Form ausdrücken zu können."'}\cite{misc:multiparadigm}
+\end{quote}
+
+Das bietet den Studenten den Freiraum, zu Beginn ihrer Programmierkarriere mittels \textbf{eines} Werkzeugs, nämlich der Programmiersprache,  unterschiedliche Denkweisen und Programmieransätze zu erproben. Die Studenten können sich voll und ganz auf das Verstehen der, den Paradigmen zugrundeliegenden Prinzipien konzentrieren und begreifen, dass ein Paradigma nicht von der verwendeten Programmiersprache abhängt, sondern von der Sichtweise auf eine Problemstellung und deren Lösung.
+
+\begin{quote}
+{\itshape "'Python ermöglicht sowohl den Logo-Zugang mit Rekursion und Listen, als auch den sequentiellen Zugang der imperativen Sprachen (und wer will - es geht auch funktional). Sprachen wie Delphi oder C++ zwingen den Schüler erst einmal, 'nur nichts falsch' zu machen. Das mag Sprach-Juristen erfreuen, lässt aber den Forschungsdrang der Schüler verkümmern."'}\cite{misc:urban}
+\end{quote}
+
+\subsubsection{Imperative Programmierung}
+
+Imperative Programmierung ist das älteste Programmierparadigma und ist an die Architektur 
+des Von-Neumann-Rechners angelehnt. Ein Programm ist eine Folge von Anweisungen, die nacheinander abgearbeitet werden; dieses befindet sich zu jeder Zeit in einem Zustand, der vom Arbeitsspeicher und der Programmumgebung (Dateisystem, 
+Peripherie) definiert ist. Seiteneffekte (Ein-/Ausgabe, Speichermodifikation, Variablen) bewirken 
+eine Änderung des Zustandes über der Zeit.
+
+\paragraph*{Prozedurale Programmierung}
+
+Die prozedurale Programmierung, die als Synonym für imperative Programmierung gesehen werden kann,  
+ermöglicht das Zusammenfassen von Anweisungen zu Unterprogrammen (Prozeduren). Unterprogramme
+werden dann von verschiedenen Stellen des Programms aufgerufen und ausgeführt.
+
+Das ist der erste Ansatz, Aufgaben in Teilaufgaben zu zerlegen und so eine einfachere, übersichtlichere und vor allem wiederverwertbare Programmierung zu ermöglichen.
+
+Es bietet sich an, dieses Paradigma als erstes im Unterricht vorzustellen, da Von-Neumann üblicherweise
+sehr früh im Informatikunterricht ein Thema ist, und so ein einfacher Konnex hergestellt werden kann.
+
+Um den zeitlichen Ablauf eines Programmes zu veranschaulichen, kann der Python Interpreter als 
+unterstützendes Visualisierungswerkzeug im Unterricht verwendet werden:
+
+\begin{lstlisting}[style=interpreter]
+>>> fahr = 0
+>>> while (fahr < 120):
+...		celsius = 5./9 * (fahr - 32)
+...		print 'Fahrenheit %6.1f = Celsius %6.3f' % (fahr, celsius)
+...		fahr += 20
+...
+Fahrenheit    0.0 = Celsius -17.778
+Fahrenheit   20.0 = Celsius -6.667
+Fahrenheit   40.0 = Celsius  4.444
+Fahrenheit   60.0 = Celsius 15.556
+Fahrenheit   80.0 = Celsius 26.667
+Fahrenheit  100.0 = Celsius 37.778
+\end{lstlisting}
+
+Die prozedurale Variante des obigen, sehr simplen, Beispiels ergäbe dann mit ausgelagerter Berechnung:
+
+\begin{lstlisting}[style=example, caption={Prozedurales Programmierbeispiel}, label=python:prozedural]
+def fahr2cels(fahr):
+	celsius = 5./9 * (fahr - 32) 
+	print 'Fahrenheit %6.1f = Celsius %6.3f' % (fahr, celsius) 
+	return celsius
+  
+fahr = 0
+while (fahr < 120):
+	fahr2cels(fahr)
+	fahr += 20
+\end{lstlisting}
+
+\paragraph*{Modulare Programmierung}
+
+Modulare Programmierung geht einen Schritt weiter und zerlegt die Prozeduren zusammen mit Daten in logische Einheiten: die Module. Der nächste Schritt ist, Aufgaben in größeren Softwareprojekten zu abstrahieren. Die jeweiligen Module werden einzeln geplant, entwickelt und getestet.
+
+Mit Python ist jede Datei ein eigenes Modul. Ein Verzeichnis mit Modulen wird Package\footnote{http://docs.python.org/tut/node8.html} genannt. Die Python Standardbibliothek und alle Erweiterungen werden als Packages entwickelt und eingebunden.
+
+Wenn die Prozedur aus Listing \ref{python:prozedural} in eine eigene Datei names \verb|mymodule.py| ausgelagert wird, muss diese als Modul eingebunden werden:
+
+\begin{lstlisting}[style=interpreter]
+>>> from mymodule import fahr2cels
+>>> fahr2cels(0)
+Fahrenheit    0.0 = Celsius -17.778
+\end{lstlisting}
+
+Um das Modul nun für externe Pythonmodule zugänglich zu machen, muss die Datei \verb|__init__.py| erstellt werden, die das Verzeichnis als Pythonpackage markiert.
+Importiert wird das Modul auf unterschiedliche Arten. Dazu ein Beispiel:
+
+\begin{lstlisting}[style=interpreter]
+>>> from mydirectory.mymodule import fahr2cels
+\end{lstlisting}
+
+Das Kennenlernen der Modularisierung fördert das Verständnis der Austauschbarkeit und Wiederverwendbarkeit von Software in einem sehr frühen Stadium des Unterrichts. Ohne viele Vorkenntnisse kann der Sinn und Zweck einer solchen Aufteilung erläutert werden. Zu diesem Zweck könnten sich jeweils zwei Gruppen von Studenten zusammenfinden, die unterschiedliche Aufgaben zu lösen haben. Die Aufgabe ist, ein Programm mittels eines weiteren Moduls zu entwerfen. Dieses Modul wird trotz unterschiedlicher Aufgabenstellung von beiden Studentengruppen benötigt. Interessant ist, die Studenten im ersten Anlauf unwissend in den Einzelgruppen arbeiten zu lassen. Danach werden die "Partnergruppen"' einander vermittelt und die jeweiligen, sicher unterschiedlich implementierten, Lösungen des Moduls von den Studenten zu einem gemeinsamen Modul angeglichen. Natürlich wird das nicht ganz friktionsfrei von statten gehen. Die Änderungen werden mit großer Wahrscheinlichkeit auch die beiden Programme der Gruppen betreffen.
+
+Im zweiten Anlauf setzt man, mit neuer Aufgabenstellung,  die Studenten schon vorher über ihre jeweiligen Partner in Kenntnis. Nun soll ein gemeinsames Modul konzipiert werden, bevor man sich über die eigene Implementierung im Detail Gedanken macht. Die Schlußfolgerungen daraus werden anschließend diskutiert, die Studenten haben die ersten Untiefen der kollektiven Softwareentwicklung erlebt.
+
+\paragraph*{Objektorientierte Programmierung}
+
+Die \OOP\ erweitert das prozedurale Paradigma um Objekte. 
+
+\begin{quote}
+{\itshape "'Ein Objekt ist ein Gegenstand des Interesses, insbesondere einer Beobachtung, Untersuchung oder Messung. Objekte können Dinge, Personen, oder Begriffe sein [...] ein Objekt besitzt einen bestimmten Zustand und reagiert mit einem definierten Verhalten auf seine Umgebung [...] jedes Objekt besitzt eine Identität, die es von anderen Objekten unterscheidet [...] ein Objekt kann ein oder mehrere andere Objekte kennen."'}\cite{Balzert2004}
+\end{quote}
+
+Heide Balzert schreibt weiters, dass der Zustand eines Objektes dessen Attribute und die jeweiligen Verbindungen zu anderen Objekten umfasst. Das Verhalten eines Objektes wird durch die Menge seiner Operationen (Methoden, Funktionen) beschrieben. Eine Änderung oder eine Abfrage des Zustandes ist nur mittels Operationen möglich (Geheimnisprinzip). Objekte werden durch Klassen definiert und können ihre Eigenschaften und Operationen vererben, was eine Schachtelung des Quelltextes ermöglicht.
+
+Folgendes Listing zeigt eine typische Python Klasse:
+
+\begin{lstlisting}[style=example, caption={einfache Python Klasse}]
+class Bankkonto:
+
+   def __init__(self,startbetrag):
+      """Konstruktor"""
+      self.kontostand = startbetrag
+
+   def einzahlung(self, betrag):
+      self.kontostand = self.kontostand + betrag
+
+   def auszahlung(self, betrag):
+      self.kontostand = self.kontostand - betrag
+
+   def anzeigen(self):
+      print self.kontostand
+\end{lstlisting}
+
+Wie zu Beginn dieses Kapitels erwähnt, ist Python eine objektorientierte Programmiersprache. In Python ist alles ein Objekt, wie folgendes Beispiel zeigt.
+
+\begin{lstlisting}[style=interpreter]
+>>> konto = Bankkonto(100)
+>>> Bankkonto
+<class __main__.Bankkonto at 0x401dfbcc>
+>>> konto
+<__main__.Bankkonto instance at 0x401e972c>
+>>> konto.anzeigen
+<bound method Bankkonto.anzeigen of <__main__.Bankkonto instance at 0x401e972c>>
+\end{lstlisting}
+%TODO dieses listing lässt kapitel Weitere Paradigmen rot erscheinen?
+
+Python lässt sich somit hervorragend für den aufbauenden Unterricht einsetzen. Während mit Java ab dem ersten Programm der objektorientierte Ansatz verstanden werden muss, kann bei Python der Unterricht mit dem verständlicheren, prozeduralen Paradigma begonnen werden. Danach arbeitet sich der Unterricht über den modularen Ansatz zur Objektorientierung.
+
+Als Abweichung zur \OOP\ Definition ist das Geheimnisprinzip in Python zu sehen. Es gibt keine private/public Schlüsselwörter. Somit kann jedes Attribut einer Pythonklasse, egal aus welchem Kontext, geändert werden. Es existiert jedoch eine Namensvereinbarung, die Methoden mit doppeltem Unterstrich (z.B. \verb|__auszahlung()|) vor ihrem Namen, Zugriffe außerhalb der Klasse untersagt. Das mag für traditionelle \OOP\ Entwickler eigenartig klingen, für den Unterricht scheint es aber keine Einschränkung zu sein (siehe Kapitel \ref{sec:firstlanguage}).
+
+\subsubsection{Deklarative Programmierung}
+
+Wie der Name ausdrückt, ist ein Programm \emph{deklarativ}, wenn es beschreibt, \emph{was} passiert. Die imperative Programmierung ist das genaue Gegenstück, sie beschreibt, \emph{wie} etwas umgesetzt wird. 
+
+In der deklarativen Programmierung wird eine problemerläuternde Spezifikation geschrieben, die von der Implementierung der jeweiligen Sprache analysiert und abgearbeitet wird. \SQL\ ist eine bekannte deklarative Sprache; eine \SQL\ Abfrage beschreibt gewünschte Daten bzw. den Retourwert, der tatsächliche Algorithmus wird vom \RDBMS\ dahinter ausgeführt. Ein weiteres Beispiel ist \HTML\/; hier beschreibt der Templateentwickler das Aussehen der Webseite mittels Markup, jedoch nicht den tatsächlichen Renderingprozess des Browsers.
+
+Imperative Programme definieren also explizit einen Algorithmus, um das gewünschte Ergebnis zu erzielen. Deklarative Programme hingegen spezifizieren das Ergebnis und überlassen  die Umsetzung der Implementierung dahinter.
+
+\paragraph*{Funktionale Programmierung}
+
+In der funktionalen Programmierung wird mit Funktionen gearbeitet. Hierbei ist zu beachten, dass nicht die Funktionen (Unterprogramme, Prozeduren) aus der Informatik, sondern Abbildungen aus der Mathematik gemeint sind.
+
+\textbf{Abbildung} nach \cite{misc:mathe}: 
+\begin{quote}
+	"'Seien $M, N$ Mengen und jedem $x \in M$ sei genau ein $y \in N$ zugeordnet. Durch $M, N$ und diese Zuordnung wird eine Abbildung von $M$ nach $N$ definiert [...] Abbildungen sind Funktionen, wenn $M$ und $N$ Teilmengen der reellen Zahlen sind."'
+\end{quote}
+
+In der Literatur wird, ungeachtet dessen, nur von Funktionen gesprochen. Aus Gründen der Einfachheit und des eindeutigen Paradigmennamen, wird auch in dieser Arbeit weiterhin von Funktionen gesprochen.
+
+Ein Programm nach dem funktionalen Paradigma besteht allein aus Funktionsdefinition,
+
+\begin{lstlisting}[style=interpreter]
+>>> def square(x): return x*x
+...
+>>> def twice(f,x):return f(f(x))
+...
+\end{lstlisting}
+
+Funktionsanwendung 
+
+\begin{lstlisting}[style=interpreter]
+>>> square(4)
+16
+\end{lstlisting}
+
+und Funktionskomposition. Bei der Kompostion werden mehrere Funktionen zusammengesetzt.
+
+\begin{lstlisting}[style=interpreter]
+>>> twice(square, 4)
+256
+\end{lstlisting}
+
+Funktionen können als Argumente und Rückgabewerte verwendet werden, man spricht von \emph{Funktionen höherer Ordnung}.
+
+\begin{lstlisting}[style=interpreter]
+>>> square
+<function square at 0x401dee64>
+\end{lstlisting}
+
+% TODO Funktionen werden im Optimalfall ohne Seiteneffekte implementiert, ...... {\color{red}TODO} siehe auch %info1_komplett.pdf S 145
+
+Python liefert einen Standardsatz an Werkzeugen zur funktionalen Programmierung. Die Befehle \verb|map()|, \verb|filter()|, \verb|reduce()| und \verb|lambda|, ebenso wie die Packages \verb|functools|\footnote{functools: http://docs.python.org/lib/module-functools.html} und \verb|functional|\footnote{functional: http://oakwinter.com/code/functional/}.
+
+Die oben genannten Befehle sind jedoch seit längerem \emph{deprecated} und werden mit Python 3000 durch andere, schon vorhandene Konstrukte, wie \textit{list-comprehensions}, abgelöst\footnote{Python 3000 and reduce(): http://www.artima.com/weblogs/viewpost.jsp?thread=98196}. Eine list-comprehension sei hier als Veranschaulichung in mathematischer und implementierter Form aufgezeigt: $S = \{ x | x \in \mathbb{N}, x^2 < 2000  \} $
+
+Die Implementierung dazu lautet:
+
+\begin{lstlisting}[style=interpreter]
+>>> from itertools import count
+>>> S = [x for x in count() if pow(x,2) < 2000]
+\end{lstlisting}
+
+Die funktionale Programmierung ist sicher nicht für Programmieranfänger zu empfehlen. Für einen fortgeschrittenen Kurs oder als unterstützendes Werkzeug für Mathematik oder Physikunterricht ist sie durchaus geeignet. Es kann mit derselben Sprache eine komplett neue Sichtweise erlernt werden.
+
+Weiterführender Literaturhinweis: \cite{DBLP:books/el/leeuwen90/Barendregt90}
+
+\paragraph*{Logische Programmierung}
+
+Bei der logischen Programmierung ist die Logik eines Programmes selbst als Programm zu betrachten. Logik kann als problemnahe und effiziente Programmiersprache verwendet werden. Ein Programm besteht aus einer Menge von Fakten, Regeln und Anweisungen. Folgende schematische Darstellung ist der Grundgedanke der logischen Programmierung:
+
+\begin{center}
+$algorithm = logic + control$
+\end{center}
+
+Wobei \emph{logic} dem rein logischen (deklarativen) Aspekt, also dem Wissen über die Zielsetzung des Algorithmus (auch Spezifikation genannt), und \emph{control} dem prozeduralen Aspekt, also der Strategie der Anwendung von Ableitungsregeln, entspricht. 
+
+\cite{misc:vorlesung} schreibt über die Vorteile des logischen Paradigmas wie folgt:
+
+\begin{quote}
+{\itshape "'Dem Anfänger wird ein erheblicher Teil des Programmieraufwandes abgenommen. Er beschreibt
+sein zu lösendes Problem mit Fakten und Regeln, ohne sich um die Lösungssuche
+selbst zu kümmern. Das hat den Vorteil, dass er mit einfachen Anfragen an sein Programm, komplizierte Lösungsmechanismen auslösen kann, die er schrittweise erkunden und für sich nutzen lernt [..] Es werden rekursive Denk- und Arbeitsweisen, die zu den fundamentalen Ideen der Informatik gehören, fast spielerisch erlernt."'}
+\end{quote}
+
+Betrachten wir folgendes Beispiel:
+
+\emph{Alle verheirateten Männer hassen ihre Schwiegermütter\\
+Hannes ist der Mann von Christa\\
+Tanja ist die Mutter von Christa\\
+--------------------------------\\
+Hannes hasst Tanja\\}
+
+%Prädikatenlogik:\\
+%für alle X ( für alle Z( mutter(X) und kind (Y,X) und verheiratet (Z,Y) -> hasst(Z,X))\\
+%mutter(tanja) und kind(Christa, Tanja) und verheiratet(Hans, Christa)
+
+Die deklarative Interpretation erlaubt, über die logische Korrektheit einer Klausel zu diskutieren. 
+
+$hasst(Z,X)$ gilt, wenn $mutter(X)$ und $kind(Y,X)$ und $verheiratet(Z,Y)$ gelten. Oder auch
+
+\begin{equation*}
+\forall X ( \forall Z( mutter(X) \wedge kind(Y,X) \wedge verheiratet(Z,Y) \rightarrow hasst(Z,X))
+\end{equation*}
+
+Die prozedurale Interpretation liest die Klausel als Definition einer Prozedur durch eine Reihe von Prozeduraufrufen:
+
+Um $hasst(Z,X)$ zu beweisen, beweise $mutter(X)$, dann $kind(Y,X)$ und schliesslich $verheiratet(Z,Y)$.
+
+Somit sind Programmiersprachen nach dem logischen (deklarativen) Paradigma auch prozedural anzusiedeln und können daher auch als Multiparadigmen-Sprachen bezeichnet werden. Der bekannteste Vertreter der logischen Programmiersprachen ist \PROLOG\/.
+
+Logische Programmierung wird unter Python nicht unterstützt, wenngleich einige Versuche\footnote{http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/360698 und http://bedevere.sourceforge.net/} und Vorschläge\footnote{http://codespeak.net/pypy/dist/pypy/doc/constraints-and-logic.html} in diese Richtung existieren. Die entsprechende \SIG\ enthält wenig Information, was mangelndes Interesse signalisiert. Auf dem Gebiet der logischen Programmierung scheint \PROLOG\ der Platzhirsch zu sein. Anscheinend gibt es so gut wie keinen Bedarf, hier zusätzliches Werkzeug zu schaffen.
+
+\subsubsection{Weitere Paradigmen}
+
+Mit Python können noch weitere Paradigmen angewandt werden. Diese zählen, nach Ansicht des Autors, jedoch nicht zu den fundamentalen Paradigmen, sondern sind Softwaredesignelemente bzw. Konzepte in der Softwareentwicklung.
+
+\paragraph*{Design by Contract}
+
+\cite{python:dbc} erklärt \DBC\ mit folgenden Worten:
+\begin{quote}
+{\itshape "'A systematic approach to building correct software systems [..] an effective framework for quality assurance [...] A method for documenting software."'}
+\end{quote}	
+
+\DBC\ ist somit ein Werkzeug, um Fehler in der Softwareentwicklung zu vermeiden, und dient gleichzeitig der Quelltextdokumentation.  Dabei werden mit Vorbedingungen, Nachbedingungen und Invarianten \emph{Verträge} definiert, die zur Laufzeit des Programms überprüft werden. 
+
+In der Programmiersprache Eiffel ist \DBC\ Bestandteil der Programmiersprache selbst. Unter Python ist \DBC\ eine Erweiterung des objektorientierten Paradigmas, die mit Metaklassen\footnote{Python Metaklasse: http://www.python.org/2.2/descrintro.html\#metaclasses} umgesetzt wird. Es existieren fertige Packages\footnote{PyDBC: http://www.nongnu.org/pydbc/}, um \DBC\ zu implementieren.
+
+\paragraph*{Aspektorientierte Programmierung}
+
+\AOP\ ist ebenfalls eine Weiterentwicklung von \OOP\/. Bei \AOP\ wird der Quelltext um eine weitere Ebene, die \emph{Aspekte}, abstrahiert. Aspekte sind Funktionalitäten, die wenig bis nichts mit den jeweiligen Objekten zu tun haben, aber dennoch oft benötigt werden, und deswegen als Aspekte ausgelagert werden. Diese Aspekte können nun jederzeit zur Laufzeit zugeschalten werden und somit die Funktionalität der Objekte erweitern oder verändern. Somit soll die Komplexität tief verschachtelter Objekte gelockert werden. Die entwickelte Software wird wartbarer und wiederverwendbarer.\cite{misc:aopspring}
+
+Dieses Paradigma ist im Vergleich zu den bisherig vorgestellten Paradigmen ein sehr junges und wird seinen Einzug in die Lehre erst in einigen Jahren erfahren. Das lässt sich mit der sogenannten \emph{Trägheit der Lehre} erklären. 
+
+\begin{quote}
+{\itshape "'It takes several years before ideas developed in research settings can be tested, evaluated, and disseminated to practicing professionals so that they can be used."'}\cite{misc:803190}
+\end{quote}	
+
+Relevante Technologien aus der Industrie benötigen bis zu zehn Jahre, um tatsächlich flächendeckend unterrichtet zu werden. Als Beispiel sei die \UML\ erwähnt, die 1997 als Standard akzeptiert wird, deren Einzug in die Lehre aber selbst heute noch nicht abgeschlossen ist. Der Vorteil dieses Prozesses ist die natürliche Auslese von Modeerscheinungen, was wiederum das Zeitkriterium einer fundamentalen Idee bestätigt.
+
+Für Python existieren einfach zu integrierende \AOP\ Module wie Pythius\footnote{Pythius: http://pythius.sourceforge.net/}. Teilweise sind diese Module sehr simpel und abstrakt gehalten, sind aber für die Untermalung der Theorie im Unterricht vollkommen ausreichend.
+
+%\paragraph*{Komponentenortientierte Programmierung}
+%{\color{red} TODO: hier passend? überhaupt hier erwähnen? oder einfach im zope kapitel behandeln}
+%Prädikative und wissensbasierte Programmierung ???

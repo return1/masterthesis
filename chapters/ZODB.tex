@@ -1,0 +1,73 @@
+Wie in Kapitel \ref{sec:Grundlagen_Zope} schon erwähnt, wird \Zope\ mit der \ZODB\ ausgeliefert. Die \ZODB\ ist für die Persistierung der Pythonobjekte zuständig. Damit die in der Applikation verwendeten Objekte bei einem Neustart des \Zope\ Servers nicht verloren gehen, werden diese Objekte persistiert.
+	
+\ZODB\ arbeitet mit dem \verb|pickle|\footnote{pickle: http://docs.python.org/lib/module-pickle.html} Modul, um Objekte schreiben und lesen zu können. Daten werden dabei von komplexen Objekten in einen Bytestream umgewandelt. Dieser kann nun z.B. in einem File gespeichert werden. 
+	
+\begin{lstlisting}[style=interpreter]
+>>> pickle.dump(object, file)
+\end{lstlisting}
+	
+Um aus einem Bytestream wieder ein Objekt zu erhalten, ist ebenfalls nur eine Zeile Quelltext notwendig.
+	
+\begin{lstlisting}[style=interpreter]
+>>> object = pickle.load(file)
+\end{lstlisting}
+
+Man spricht dabei von \emph{pickling} (Serialisierung) und \emph{unpickling} (Deserialisierung). Die \ZODB\ kümmert sich um die gesamte Maschinerie: Caching, Schreiben und Lesen. Das Ganze ist natürlich transaktionssicher\footnote{siehe Maillinglisteneintrag "'ZODB implementiert kein ACID"': https://mail.dzug.org/pipermail/zope/2007-June/003937.html}. Um ein Objekt zu persistieren reicht eine simple Vererbung.
+
+\begin{lstlisting}[style=interpreter]
+>>> from persistent import Persistent
+>>> class MyPersistentClass(Persistent):
+...		def __init__(self):
+...			self.id = ''
+...			self.name = ''
+...			self.description = ''
+...
+\end{lstlisting}
+	
+Als Standard schreibt die \ZODB\ in ein File im Dateisystem. Diese Implementierung wird "'FileStorage"' genannt. Es ist möglich, auf andere Implementierungen zuzugreifen. Diese sind "'DirectoryStorage"'\footnote{DirectoryStorage: http://dirstorage.sourceforge.net/}, "'ClientStorage"' und "'\APE\/"'\footnote{APE: http://hathawaymix.org/Software/Ape}.
+
+Aus diesen Alternativen ist die "'ClientStorage"' erwähnenswert, mit der Daten mittels \ZEO\ auf mehrere Rechner verteilt werden. Damit ist Clustering von Webapplikationen allein auf Basis kostenloser Open-Source-Software möglich \cite{zope:ctarticle1}.
+
+Wie kann die \ZODB\ nun im Unterricht verwendet werden? Es ist sinnvoll, im Zuge der Verwendung von \Zope\ in einigen wenigen Unterrichtseinheiten auf das Thema einzugehen. Dabei sollte jedoch nicht zu sehr ins Detail gegangen werden. Es bietet sich an, die ZODB zur Veranschaulichung der unterschiedlichen Handhabung von objektorientierten und relationalen Datenbanken zu zeigen. 
+
+\begin{quote}
+{\itshape "'An advantage of relational database systems is their programming-language neutrality. Data are stored in tables, which are language independent. An application must read data from tables into program variables before use and must write modified data back to tables when necessary. This puts a significant burden on the application developer. A significant amount of application logic is devoted to translation of data to and from the relational model."'}\cite{python:fulton}
+\end{quote}
+
+Bei relationalen Datenbanken wird, unabhängig von der Implementierung mittels \SQL\/, auf die Daten zugegriffen und diese mit der Applikation verwoben. Dabei ensteht ein nicht unerheblicher Aufwand für den Entwickler, der sich um die Handhabung der Daten selbst kümmern muss.
+
+\begin{quote}
+{\itshape "'An alternative is to retain the tabular structure in the program. For example, rather than populating objects from tables, simply create and use table objects within the application. In this case, high-level tools can be used to load tables from the relational database. With sufficient knowledge of database keys, tools could automate saving data when tables are changed. A disadvantage of this approach is that it forces the application to be written to the relational model, rather than in an object-oriented fashion. The benefits of object orientation, such as encapsulation and association of logic with data are lost [...] Object databases provide a tighter integration between an applications object model and data storage. Data are not stored in tables, but in ways that reflect the organization of the information in the problem domain. Application developers are freed from writing logic for moving data to and from storage."'}
+\end{quote}
+
+\cite{python:fulton} schreibt hier von zwei Varianten. Die eine ist eine Hybridlösung, nämlich das Objektmapping. Hierbei werden die Daten in der Applikation verwendet, die notwendigen Abfragen an die relationale Datenbank geschehen im Hintergrund. Hier ist der Entwickler jedoch zu stark an das relationale Denken gebunden. 
+
+Die zweite Variante ist das Verwenden einer objektorientierten Datenbank, wie die \ZODB\/. Hierbei rücken Daten und Integration näher zueinander, ohne jedoch problematisch zu verschmelzen. Die Entwicklung muss sich nicht um das Speichern und Lesen von Daten kümmern.
+
+In Verbindung mit der ersten Variante soll SQLAlchemy\footnote{SQLAlchemy: http://www.sqlalchemy.org/} erwähnt werden, ein Python SQL Toolkit und objektrelationaler Mapper. SQLAlchemy kann als Hibernate\footnote{Hibernate: http://www.hibernate.org/} der Pythonwelt betrachtet werden. Die folgende Interpreter Session zeigt stark verkürzt die Anwendung eines Objektmappers, wo gegen Ende zu sehen ist, wie der Mapper eine \SQL\/-Abfrage im Hintergrund absetzt.
+
+\begin{lstlisting}[style=interpreter]
+>>> class User(object):
+...		def __init__(self, username, password):
+...			self.userid = None
+...			self.username = username
+...			self.password = password
+...		def get_name(self):
+...			return self.username
+...		def __repr__(self):
+...			return "User id %s name %s password %s" % (repr(self.userid), \
+...								repr(self.username), repr(self.password))
+...
+>>> mapper(User, users_table)
+>>> sess = create_session()
+>>> user = User('hak', 'tom')
+>>> sess.save(user)
+>>> sess.flush()
+INSERT INTO users (username, password) VALUES (:username, :password)
+{'password': 'hak', 'username': 'tom'}
+>>> user
+User id 1 name 'hak' password 'tom'
+\end{lstlisting}
+
+
+

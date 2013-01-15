@@ -1,0 +1,317 @@
+Die Beispielimplementierung behandelt einen Auszug aus einem konkreten Projekt des Autors. Das Projekt Stadtgespräche\footnote{Stadtgespräche: http://www.stadtgespraeche.com} ist ein digitales Museum für fotographische Fundstücke von Schriften, Logos, Zeichen, Pictogrammen, Buchstaben, Wappen und anderen typografischen Werken. Der Museumsdirektor Markus Hanzer beschreibt Stadtgespräche (Abbildung \ref{fig:stadtgespraeche}) wie folgt:
+
+\begin{quote}
+\itshape{"'Stadtgespräche versteht sich als ein offenes Forum der Diskussion und Auseinandersetzung über visuelle Alltagskommunikation und versucht durch Gegenüberstellungen und analytische Beschreibungen einen Blick auf mögliche Hintergründe und Motive für konkrete Gestaltungsformen zu werfen."'}
+\end{quote}
+ 
+Ursprünglich wurde das Projekt im Jahre 2000 auf Basis von \Zope\ 2 unter dem Namen Typemuseum entwickelt. Aus rechtlichen Gründen musste das Projekt neu entwickelt werden. Zu diesem Anlass gibt es einen Technologierelaunch auf Basis von \Zope\ 3.
+
+Die folgenden Seiten zeigen nur Ausschnitte aus den Quelltexten, in denen teilweise aufbauend erläutert wird. Daher ist es notwendig, den tatsächlichen Endstatus der Quelltexte im Anhang dieser Arbeit abzulegen.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{graphics/stadtgespraeche.png}
+	\caption{Frontend Stadtgespäche}
+	\label{fig:stadtgespraeche}
+\end{figure}
+
+Das Prinzip ist einfach. Als Geschäftsobjekt kann ein Eintrag im Museum definiert werden. Ein Eintrag ist eine Grafik mit zugehörigen Metadaten, die in einer hierarchischen Struktur abgebildet wird. Aus dieser Struktur wird die Navigation für das Frontend generiert.
+
+\newpage
+\subsubsection*{Interface}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.7]{graphics/sgsstep1.png}
+	\caption{Interface}
+	\label{fig:sgsstep1}
+\end{figure}
+
+Im ersten Schritt wird das Interface definiert. Interfaces sind kein Standardkonzept von Python und wurden von \Zope\ zusätzlich implementiert. Aus diesem Grund sind Interfaces Klassen. Das hat wiederum den Vorteil, dass Interfaces vererbt werden können.
+
+Interfaces unter \Zope\ 3 dienen nicht nur der Dokumentation, sondern können auch adaptiert werden. Jedes Objekt kann jedes Interface zur Verfügung stellen oder adaptieren.
+
+Nach Erstellen eines Python Moduls mittels leerer \verb|__init__.py| im Python Pfad (normalerweise in der Zope Instanz unter \verb|lib/python|), wird das Interface erzeugt. Nach Konvention sind die Interfaces eines Moduls immer in der Datei \verb|interfaces.py| zu finden.
+
+\begin{lstlisting}[style=example, caption={IEntry interface (interfaces.py)}, label=impl:interface1]
+from zope.app.file.interfaces import IImage
+from zope.app.container.interfaces import IContainer
+from zope.app.container.constraints import contains
+from zope.schema import Text, TextLine, Date
+
+class IEntry(IImage):
+    """ Interface for Entry  """
+
+    description = Text(title=u"Image Description", required=False)
+
+    dateTaken = Date(title=u"Date when picture was taken", required=True)
+    placeTaken = TextLine(title=u"Place where picture was taken",
+                          required=True)
+
+    contributor = TextLine(title=u"email of contributor", required=True)
+
+
+class IEntryContainer(IContainer):
+    """ Container Interface for an Entry """
+    contains(IEntry)
+\end{lstlisting}
+
+\begin{itemize}
+	\item Zeile 6: \verb|IEntry| erbt das \verb|IImage| Interface aus \verb|zope.app.file.interfaces|. Damit ist es möglich, die Funktionalität des Zope Basis Objektes \verb|Image| zur Verfügung zu stellen. Dieses speichert unter anderem die Bilddaten als Attribut auf dem Objekt.
+	\item Zeile 7: Python Docstring für die Dokumentation des Interfaces.
+	\item Zeile 9-15: Das Schema für die Attribute wird festgelegt. Ein Schema bringt eine statische Typisierung in die dynamisch typisierte Sprache Python. Hauptanwendung ist dabei das Generieren und Validieren von Userinput. Zuständig dafür ist beispielsweise \verb|zope.formlib|. Später wird der Zope Server aus diesen Informationen passende Formulare generieren.
+	\item Zeile 18-20: Hier ist eine andere Verwendung für Interfaces zu sehen. Objekte, die IEntryContainer zur Verfügung stellen, erlauben, andere Objekte zu beinhalten, die wiederum das Interface IEntry bereitstellen. Man spricht auch von einem \emph{Marker-Interface}.
+\end{itemize}
+
+\subsubsection*{Content Objekt}
+
+Im nächsten Schritt legen wir ein Content Objekt an, das obige Interfaces implementieren wird.
+
+\begin{lstlisting}[style=example, caption={persistentes Content Objekt (entry.py)}, label=impl:content1]
+from zope.interface import implements
+from zope.app.container.btree import BTreeContainer
+from zope.app.file.image import Image
+
+from interfaces import *
+
+class Entry(BTreeContainer, Image):
+    implements(IEntry, IEntryContainer)
+
+    __name__ = __parent__ = None
+
+    description = u""
+
+    dateTaken = None
+    placeTaken = u""
+
+    contributor = u""
+\end{lstlisting}
+\begin{itemize}
+	\item Zeile 7: Unsere Klasse erbt die Funktionalität von \verb|Image| und \verb|BTreeContainer| und damit implizit auch eine automatische Persistierung in der \ZODB\/. \verb|BTreeContainer| ermöglicht, weitere Objekte \emph{in} einer \verb|Entry| Instanz zu speichern. Die Klasse fungiert somit als Container. Die enthaltenen Objekte werden aus Performancegründen als Binary Tree abgelegt.
+	\item Zeile 8: Das Objekt implementiert hiermit die beiden von uns erstellten Interfaces. Somit ist es möglich, das Content Objekt ineinander zu verschachteln.
+	\item Zeile 10: Diese beiden Attribute werden benötigt, um das Objekt in der Hierarchie auffindbar zu machen (\verb|zope.location|).
+	\item Zeile 12-17: Um die Anforderungen der Interfaces zu erfüllen, werden die im Interface definierten Attribute leer initialisiert.
+\end{itemize}
+
+\subsubsection*{Konfiguration}
+
+Per \ZCML\ wird dem \Zope\ Server nun mitgeteilt, dass die neue Komponente bereit ist, in Betrieb genommen zu werden.
+
+\begin{lstlisting}[style=example, caption={ZCML Konfiguration (configure.zcml)}, label=impl:zcml1]
+<configure
+        xmlns="http://namespaces.zope.org/zope"
+        i18n_domain="zope"
+        >
+
+<class class=".entry.Entry" >
+    <require
+        permission="zope.View"
+        interface=".interfaces.IEntry" />
+    <require
+        permission="zope.View"
+        interface=".interfaces.IEntryContainer" />
+    <require
+        permission="zope.ManageContent"
+        set_schema=".interfaces.IEntry" />
+</class>
+
+</configure>
+\end{lstlisting}
+
+\begin{itemize}
+	\item Zeile 6-16: Der \verb|class| Tag registriert und konfiguriert das Objekt innerhalb von Zope. Standardmäßig ist der Zugriff auf alle Elemente einer Klasse von der Zope Security Maschinerie unterbunden. In diesen Zeilen wird der Lesezugriff auf alle durch die Interfaces \verb|IEntry| und \verb|IEntryContainer| definierten Attribute für die Zope Permission \verb|zope.View| freigegeben. Der Schreibzugriff wird für das Schema unter \verb|IEntry| zugelassen.
+\end{itemize}
+
+Um das Objekt per \ZMI\ verwalten zu können, erstellen wir eine eigene Konfiguration im Untermodul \verb|browser|. Das signalisiert die Zugehörigkeit zu einem View der \HTTP\ Klasse. Dafür wird das Unterverzeichnis erstellt und als Python Modul gekennzeichnet. In die obige Datei \verb|configure.zcml| wird das neu zu berücksichtigende Modul wie folgt eingefügt.
+
+\verb|<include package=".browser" />|
+
+Das \verb|browser| Modul wird in Zukunft alle Views betreffend Webbrowser enthalten.
+
+\begin{lstlisting}[style=example, caption={ZCML Browser Konfiguration (browser/configure.zcml)}, label=impl:zcml1]
+<configure xmlns="http://namespaces.zope.org/browser">
+
+<addMenuItem
+      class="..entry.Entry"
+      title="SGS Entry"
+      permission="zope.ManageContent"
+      view="AddSGSEntry.html"
+      />
+
+<addform
+      label="Add SGS Entry"
+      name="AddSGSEntry.html"
+      schema="..interfaces.IEntry"
+      content_factory="..entry.Entry"
+      class="zope.app.file.browser.image.ImageAdd"
+      permission="zope.ManageContent"
+      />
+
+<containerViews
+      for="..interfaces.IEntryContainer"
+      contents="zope.ManageContent"
+      add="zope.ManageContent"
+      />
+      
+</configure>
+\end{lstlisting}
+
+Diese Konfiguration ermöglicht dem Administrator nun via \ZMI\ neue Instanzen des \verb|entry| Content Objektes zu erstellen (siehe Abbildung \ref{fig:zmi1}). Die dafür benötigten Webformulare, inklusive Validierung, wurden durch die vorherigen Interfacespezifikationen erstellt.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.5]{graphics/zmi1.png}
+	\caption{Zope Management Interface (ZMI)}
+	\label{fig:zmi1}
+\end{figure}
+
+%TODO eventuell Schema (email)
+
+\subsubsection*{Adapter}
+
+Die Persistierung und Konfiguration eines Eintrages ist erledigt. Nun wird dieser um die Funktionalität einer Navigation erweitert. Dabei wird darauf geachtet, dass browser-spezifische Funktionalität abgekapselt, und weiters die bisherige Implementierung nicht geändert wird. Dabei kommt ein Werkzeug des Zope Komponenten Frameworks zum Einsatz: der Adapter.
+
+Mittels Adapter kann die bestehende Funktionaliät erweitert werden, ohne die Implementierung des zu adaptierenden Objektes zu ändern.
+
+Die Datei \verb|interfaces.py| wird um das Interface des Adapters erweitert.
+
+\begin{lstlisting}[style=example, caption={Adapter Interface für Navigationsfunktionalität (interfaces.py)}, label=impl:adapterinterface, firstnumber=22]
+from zope.interface import Interface
+
+class IEntryNav(Interface):
+    """used as Adapter for menu creation
+    """
+
+    def setEntryMenuName(menuname):
+        """ set the navigation menu name  """
+
+    def getEntryMenuName():
+        """ get the navigation menu name """
+
+    def getEntryMenuOrder():
+        """ get the navigation menu order """
+
+    def setEntryMenuOrder(order):
+        """ set the navigation menu order """
+
+    def getChildren():
+        """ get all IEntry children from this location """
+
+    def getSiblings():
+        """ get all IEntry Siblings from this location
+            (self is included)
+        """
+\end{lstlisting}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.7]{graphics/sgsadapter.png}
+	\caption{Adapter}
+	\label{fig:sgsadapter}
+\end{figure}
+
+\verb|Entry| soll um ein Attribut erweitert werden, das den Namen des Navigationspunktes repräsentiert. Weiters soll jeder Menüpunkt eine Gewichtung zwecks Sortierung der Navigation erhalten. Der Name des Navigationspunktes wird als \emph{Annotation} auf dem ursprünglichen Objekt gespeichert. Dazu muss \verb|Entry| ein Markerinterface zur Verfügung stellen, welches signalisiert, dass auf diesem Objekt Metadaten (Annotations) gespeichert werden dürfen. Das kann entweder via \ZCML\ oder wie folgt (Listing \ref{impl:changeentry}) geschehen. 
+
+\begin{lstlisting}[style=example, caption={Hinzufügen des Marker Interfaces für Annotations (entry.py)},firstnumber=8, label=impl:changeentry]
+implements(IEntry, IEntryContainer, IAttributeAnnotatable)
+\end{lstlisting}
+
+\begin{lstlisting}[style=example, caption={Adapter für Navigationsfunktionalität (entry.py)}, label=impl:adapter, firstnumber=19]
+from zope.component import adapts
+from zope.annotation.interfaces import IAttributeAnnotatable
+from zope.annotation import IAnnotations
+
+EntryNavAnnotations_KEY = "sgs.entrynav"
+
+class EntryNav(object):
+    implements(IEntryNav)
+    adapts(IEntry)
+
+    def __init__(self, context):
+        self.context = self.__parent__  = context
+        annotations = IAnnotations(context)
+        mapping = annotations.get(EntryNavAnnotations_KEY)
+        if mapping is None:
+             mapping = annotations[EntryNavAnnotations_KEY] = {'name': '',
+                                                              'order': 0}
+        self.mapping = mapping
+
+    def setEntryMenuName(self, menuname):
+        self.mapping['name'] = menuname
+
+    def getEntryMenuName(self):
+        return self.mapping['name']
+
+    def setEntryMenuOrder(self, order):
+        self.mapping['order'] = order
+
+    def getEntryMenuOrder(self):
+        return self.mapping['order']
+
+    def getChildren(self):
+        return self.context.values() 
+
+    def getSiblings(self):
+		siblings = []
+        for sibling in self.context.__parent__.values():
+            if IEntry.providedBy(sibling):
+                siblings.append(sibling)
+        return siblings
+\end{lstlisting}
+
+\begin{itemize}
+	\item Zeile 26: Diese Klasse stellt \verb|IEntryNav| als Interface zur Verfügung,
+	\item Zeile 27: und fungiert als Adapter für IEntry (siehe Abbildung \ref{fig:sgsadapter}).
+	\item Zeile 30-36: Um die beiden neuen Attribute zu persistieren, wird der IAnnotations Adapter auf dem \verb|Entry| Objekt angewendet.
+	\item Zeile 38-48: getter und setter der neuen Attribute.
+	\item Zeile 50-58: Implementierung der Methoden, die die spätere Navigationsgenerierung unterstützen.
+\end{itemize}
+	
+Um den Adapter zu registrieren, muss der Konfigurationsteil im \verb|entry| Modul erweitert werden (Listing \ref{impl:adapterzcml}).
+
+\begin{lstlisting}[style=example, caption={ZCML Konfiguration für den Adapter der Navigationsfunktionalität (configure.zcml)}, label=impl:adapterzcml, numbers=none]
+...
+<adapter factory=".entry.EntryNav"
+         trusted="true"  />
+
+<class class=".entry.EntryNav" >
+    <require
+        permission="zope.View"
+        interface=".interfaces.IEntryNav" />
+</class>
+...
+\end{lstlisting}
+
+Ein Test für die Adapterimplementierung ist überfällig. Listing \ref{anhang:entry.txt} aus dem Anhang erläutert diesen.
+
+Als Nächstes wird ein Browser-View geschrieben, der die Navigation nach Abbildung \ref{fig:stadtgespraeche} generiert. Der View kann in Folge von einem \ZPT\ verwendet werden, um diesen für den Benutzer graphisch aufzubereiten.
+
+\lstinputlisting[style=example, caption={Generierung der Navigation (browser/\_\_init\_\_.py)}]{code/browser/__init__.py}
+
+\begin{itemize}
+	\item Zeile 13-21: Das soeben aktive Objekt sucht seine Elternobjekte in der Hierarchie und ordnet diese in eine Liste ein.
+	\item Zeile 23-29: Für jeden Eintrag in der soeben generierten Liste steht ein aktiver Menüpunkt in der Navigation. Für jeden dieser Menüpunkt werden die Geschwistereinträge auf gleicher Ebene gesucht. Die Information wird als Liste von Dictionaries generiert. Gleichzeitig wird die Navigation korrekt sortiert.
+	\item Zeile 31-45: Der gleiche Vorgang wie zuvor findet für die Einträge auf gleicher Ebene und die Kinder des aktiven Objektes statt.
+\end{itemize}
+
+Im Anhang ist der komplette Quelltext der Beispielimplementierung zu finden, sowie weitere Tests, die die Generierung der Navigation und eine Katatalogindizierung testen.
+
+Weitere Schritte in der Implementierung betreffen sowohl die Präsentationslogik, als auch das Layout mit \HTML\ und \CSS\/ sowie ein Redakteursinterface. Das wird in dieser Arbeit nicht behandelt. Mögliche weitere denkbare Funktionalitäten wären eine Tagging Engine, mit der es möglich ist, Einträge zu verschlagworten und somit eine flache Kategorisierung zu erreichen (im Gegensatz zur Hierarchie der momentanen Implementierung). Ein fertige Komponente hierfür scheint \verb|lovely.tag|\footnote{lovely.tag: http://svn.zope.org/lovely.tag/} zu sein. 
+
+%TODO eventuell DANN security, pluggable auth
+
+
+%Abhandlung der Implementierung. Systematisches Vorstellen des Frameworks anhand der Implementierung. Optimalerweise könnte das ein Beispielprojekt für Unterrichtszwecke sein.
+%Genaues Thema der Implementierung steht noch nicht fest. Fokus liegt auf der Implementierung, nicht auf auf Analyse oder Design.
+%Der Aufbau soll sich an \cite{zope:weitershausen} anlehnen.
+  
+%Die folgende Unterteilung in Unterkapitel ist implementierungsbedingt und wird sich mit großer Wahrscheinlichkeit noch anpassen. Sie ist als einstweiliges Grundkonzept zu sehen.
+%  	\subsubsection{Interfaces}
+%  	\subsubsection{Content Components}
+%  	\subsubsection{Views}
+%  	\subsubsection{Internationalization}
+%  	\subsubsection{Adapters}
+%  	\subsubsection{Automatisches Testen}
+%  	\subsubsection{Metadaten und der Dublic Core Standard}
+%  	\subsubsection{Sicherheit}
+%  	\subsubsection{Authentifizierung und Benutzerverwaltung}

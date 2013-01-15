@@ -1,0 +1,127 @@
+%\subsection{CBSE - Komponentenbasierte Softwareentwicklung}
+%Kurzes und bündiges Kapitel über CBSE, gerade soviel, um im  folgenden Kapitel auf die Unterschiede zu Zope 3 eingehen zu können.
+%Hinweis auf die technisch komplexen Infrastrukturen der bekannten Komponententechnologien (CORBA, Java Beans, etc.) für den Unterrichtseinsatz. Erklärung der einfachen Inbetriebnahme eines Zope Servers.
+
+%\subsection{Zope 3 vs. CBSE}
+%Kann Zope 3 überhaupt mit CBSE in Verbindung gebracht werden? Wie unterscheidet sich Zope 3 vom CBSE Ansatz? Können CBSE Ideen anhand des Zope 3 Servers im Unterricht umgesetzt werden?
+%Content (Model in MVC, Entity bean in J2EE)
+%Views (View in MVC, Servlet in J2EE)
+	
+%Nicht-Fokus der beiden letzen Kapitel: zu starke Detaillierung in CBSE Richtung.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Zope 3 bezeichnet sich selbst als Komponentensystem. Was zeichnet ein Komponentensystem aus? Was ist eine Komponente? Und warum ist ein Komponentensystem interessant für den Unterricht? Warum gerade Zope 3?
+
+%Zope3 Komponenten Architektur
+%	Was ist ein Komponentensystem? \cite{10.1109/CMPSAC.1996.544597}
+%	Welche gibt es und wie funktionieren sie (grob)?
+%	CBSE? WebServices?
+%	Wichtigkeit der "Komponisierung"' der Softwareentwicklung? Ist die Softwarekomponente eine fundamentale Idee?
+%	Einfacher Zugang zu einer Implementierung.
+%	Zeigen was ist an Zope 3 das Komponentensystem, warum ists ein guter Einstieg/Ansatz?
+%make or adapt (vs make or buy) 190.pdf
+
+\Zope\ 3\footnote{Im Folgenden wird immer von Zope ab der Version 3 gesprochen. Ist die Rede von einer früheren Version, wird explizit die Versionsnummer angeführt.} besteht aus einer Komponentenarchitektur. Um diese zu erläutern, soll zuerst der Begriff einer Softwarekomponente und der des \CBSE\ erläutert werden.
+
+In der heutigen Softwareentwicklung gibt es ein hohes Maß an Anforderungen (modifiziert nach \cite{misc:goeschka_kos} und \cite{10.1109/CMPSAC.1996.544597}):
+\begin{itemize}
+	\item Hohe Qualität wird erwartet.
+	\item Die Software muss billig sein.
+	\item Usability: die Software muß einfach und möglichst ohne Lernaufwand zu bedienen sein.
+	\item Neue Versionen und Updates werden in immer kürzeren Zeitabständen verlangt. Auf Änderungen muss schnell reagiert werden.
+	\item Stabilität, Zuverlässigkeit und Robustheit.
+	\item Neue Software muss bestehende, alte Software integrieren und erweitern.
+	\item Software wird immer komplexer.
+	%\item Von Software hängen oft Menschenleben ab. %killed by alex ;)
+\end{itemize}
+
+Auf der anderen Seite erwartet man im Softwareentwicklungsprozess folgende Merkmale:
+\begin{itemize}
+	\item Die Erstellung der Software muss billig sein.
+	\item Projektlaufzeiten müssen eingehalten werden.
+	\item Prozess- und qualitätsorientierte Entwicklung.
+\end{itemize}
+
+\cite{misc:goeschka_kos} schreibt weiters:
+
+\begin{quote}
+{\itshape "'Der Widerspruch aus den Kundenwünschen und den Anforderungen an die Entwicklung führt
+fast zwangsläufig dazu, dass wir es heute als selbstverständlich akzeptieren, dass Software
+Fehler enthält. Wir wundern uns nicht mehr, wenn wir mehrmals am Tag unsere Systeme neu
+booten müssen, weil sie komplett abgestürzt sind (system crash). Den damit verbundenen
+Verlust an wertvoller Arbeitszeit oder vielleicht sogar Datenverlust nehmen wir als
+unerfreulich, aber alltäglich einfach so hin. Würden wir uns bei einem Gebäude oder einem
+Auto auch so leicht zufrieden geben? Wohl kaum!"'}
+\end{quote}
+
+\CBSE\ soll dabei Abhilfe schaffen. Das Ziel komponentenbasierter Softwareentwicklung ist, die Produktivität und Qualität in der Softwareentwicklung zu steigern. Anstatt jedesmal "'das Rad neu zu erfinden"', soll Software aus Standardkomponenten "'zusammengebaut"' werden. Software soll nicht mehr entwickelt, sondern gekauft werden. Dabei spricht die Literatur von \COTS\ Komponenten.
+
+\begin{quote}
+{\itshape "'It [CBSE] focuses on reusing and adapting existing components, as opposed to just coding in a particular style.
+CBSE encourages the composition of software systems, as opposed to programming them. CBSE is a process that aims to design and construct software systems using reusable software components."'}\cite{misc:cbsestuff}
+\end{quote}
+
+Ziel ist es, eine Industrialisierung der Softwareentwicklung zu erreichen. Damit würde die Softwareentwicklung zu einer klassischen Ingenieurswissenschaft mit einheitlichen Standards werden. Es gäbe einen eigenen Markt für den Handel mit Komponenten (Abbildung \ref{fig:componentmarket}). 
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8]{graphics/componentmarket.png}
+	\caption{Beispiel eines Komponentenmarktes nach \cite{10.1109/CMPSAC.1996.544597}}
+	\label{fig:componentmarket}
+\end{figure}
+
+Ein hochgestecktes Ziel, wenn man die rasante technologische Entwicklung betrachtet. Kaum werden Vorschläge ausgearbeitet, sind sie auch schon wieder veraltet. Die Herausforderung besteht darin, die Thematik frei nach dem Horizontalkriterium der fundamentalen Idee nach Schwill zu bearbeiten. Wie können Standards geschaffen werden, die möglichst frei von Technologie, aber trotzdem mit jeder Technologie eingehalten werden können? Und wie kann es in der kommerziellen Welt der Konkurrenz zu \emph{einer} einheitlichen Lösung, also zu einem Standard, kommen?
+
+Dazu kommen noch die Akzeptanzschwierigkeiten bei vielen Entwicklern, die ihre Arbeit als kreativen Prozess sehen und sich durch die Überstrukturierung von Prozessen bedrängt fühlen. \cite{misc:componentssmalltalk} sieht die Softwareentwicklung sogar als eine Kunst und bekräftigt unter anderem Folgendes:
+
+\begin{quote}
+{\itshape "'Bedenkt man, daß der Computer eine universelle Maschine ist und Software praktisch beliebige Vorgänge beschreiben kann, wird klar, dass der Ansatz eines universellen Vorgehensmodells zum Scheitern verurteilt ist."'}
+\end{quote}
+
+\cite{misc:componentssmalltalk} unterteilt Softwareentwicklung, unter Berufung auf andere Quellen, in zwei unterschiedliche Kulturen, die griechische und die römische Kultur. Wobei zur kurzen Erläuterung hier die Schubladen \emph{Entwickler} und \emph{Manager} zu verstehen sind. Wenngleich sehr überspitzt formuliert, erläutert diese Aufteilung eine weitere Problematik, die das Finden einer gemeinsamen und akzeptierten Ingenieurswissenschaft erschwert.
+
+Spinnt man den Faden weiter, kann eine Verbindung zur unterschiedlichen Weltanschauung von Open-Source Software und kommerzieller Closed-Source Software gesehen werden. \CBSE\ geht laut Literatur davon aus, dass Komponenten als \emph{Blackbox} ausgeliefert werden. Das heißt, der Kunde kennt die Implementierung nicht, nur die Schnittstellendefinition. Dieser Ansatz widerspricht zutiefst der Open-Source Philosophie. \CBSE\ kann jedoch nur funktionieren, wenn der Kunde die Implementierung der Komponente nicht verändern kann, andererseits wäre die Idee fehlerfreier Software wieder hinfällig. Der Hersteller kann nur für \emph{sein} Produkt garantieren, das er mit seinem Spezialwissen qualitativ hochwertig hält. Ändert der Kunde etwas an der Komponente, erlischt die Garantie und Fehlern sind wieder Tür und Tor geöffnet. Eine mögliche Abhilfe wäre die Auslieferung von Komponenten als \emph{glass-box} \cite{misc:reuse}, wobei der Quelltext der Komponenten mit ausgeliefert wird, dieser jedoch nicht verändert werden darf.
+
+Diese Arbeit will und kann hier keine Lösung erarbeiten. Die bisherige Abhandlung zeigt, dass \CBSE\ uns die nächsten Jahre begleiten wird, und das Thema Modularisierung, Reuse und Testen von Software einen wichtigen Platz in der Ausbildung angehender Softwareentwickler einnehmen muß.
+
+Was ist nun eigentlich eine Komponente? \cite{misc:reuse} hat die unterschiedlichen Definitionen aus der Literatur zusammengefasst und folgende Merkmale abgeleitet:
+\begin{itemize}
+	\item Komponenten sind klar abgrenzbar: sie können unabhängig entwickelt und eingesetzt werden.
+	\item Sie stellen Schnittstellen nach außen zur Verfügung und kapseln ihre Daten.
+	\item Sie haben definierte Abhängigkeiten von ihrem Kontext.
+\end{itemize}
+
+Eine nach \cite{misc:komponentenmodelle} allgemein anerkannte Definition einer Komponente ist:
+
+\begin{quote}
+{\itshape "'A software component is a unit of composition with contractually specified interfaces and explicit context dependencies only. A software component can be deployed independently and is subject to composition by third parties."'}
+\end{quote}
+
+Wenden wir uns jetzt der Komponentenarchitektur von \Zope\ zu. Die \Zope\ Komponentenarchitektur kann nicht im globalen Umfeld einer \CBSE\ Komponente gesehen werden. Eine Komponente unter \Zope\ ist eine Stufe davor anzusiedeln, nämlich in der Entwicklung selbst. \Zope\ selbst ist ein Applikationsserver, der auf einer Komponentenarchitektur (\verb|zope.component|, \verb|zope.interface|) und weiteren Komponenten basiert. Diese \emph{core} Komponenten können durch die Komponentenarchitektur flexibel angepasst und erweitert werden, ohne die originale Funktionalität zu verändern.
+
+Passend dazu definiert \cite{misc:reuse} drei Typen von Komponenten unterschiedlicher Granularität: Elementarbausteine, Baugruppen und Systeme.
+
+\begin{quote}
+{\itshape "'Elementarbausteine sind der kleinste Komponententyp. Sie haben beliebige
+Abhängigkeiten von anderen Komponenten und sind nicht für sich ausführbar [...]
+Baugruppen sind Komponenten mittlerer Größe. Sie bestehen aus Elementarbausteinen
+und/oder anderen Baugruppen. Sie haben klar begrenzte Abhängigkeiten
+von anderen Komponenten und sind nicht für sich ausführbar. [...]
+Systeme sind die größten Komponenten. Sie sind aus Baugruppen zusammengesetzt,
+haben minimale Abhängigkeiten von anderen Komponenten und sind
+für sich ausführbar."'}
+\end{quote}
+
+Eine \Zope\ Komponente ist als Baugruppe einzustufen, während die Komponente, von der \CBSE\ spricht, eher dem System  zuzuordnen ist. Die \Zope\ Komponentenarchitektur ist im Prinzip ein Entwicklerwerkzeug zum Software Reuse, das den gleichen Merkmalen, wie bei \cite{misc:reuse} dargelegt, unterliegt. Einziger Unterschied ist, dass die \Zope\ Komponente nicht ausgeliefert und \emph{deployed}, sondern für die Entwicklung einer Applikation\footnote{Unter Zope typischerweise eine Webapplikation.} verwendet wird. Diese Applikation kann theoretisch als Komponente nach \CBSE\ verwendet werden. 
+
+\Zope\ selbst hat keine komplexe Verteilungstechnologie wie z.B. \EJB\ mit \RMI\ hat. \Zope\ kann per Standard mit XML-\RPC\ umgehen\footnote{Die Zope Community hat bisher keinen Bedarf in der Integration aufwendigerer Technologien gesehen.}. Dafür ist es möglich, auf verteilte Konzepte wie \CORBA\ oder Webservices zu setzen. Für Python exisitieren mehrere \ORB\/\footnote{z.B. omniORB: http://omniorb.sourceforge.net/}, und für den \Zope\ Server gibt es eine experimentelle Komponente für das \SOAP\/\footnote{http://svn.zope.org/soap/}.
+
+Auch wenn die Zope Archtitekur aus den genannten Gründen nicht der Idee des \CBSE\ entspricht, verfolgt sie doch den Komponentengedanken und ist, nach Ansicht des Autors, für die Vermittlung der Thematik im praktischen Bezug gut im Unterricht anwendbar. Der Einsatz von Python wurde im ersten Abschnitt dieser Arbeit behandelt. Ist den Studenten die Sprache geläufig, geht es im Unterricht nur noch um das Erlernen neuer Konzepte. Die Anwendung erfolgt mit gewohntem Werkzeug.
+
+Das modulare Komponentendenken ist eine fundamentale Idee der Softwareentwicklung und gehört vermittelt. Der Autor kennt neben Zope kein anderes Framework, das ohne in die Komplexität von verteilter Software einzutauchen, diese Thematik leicht zugänglich macht.
+
+%TODO? 5. mehr details? Komponentenarchitektur unter Zope 3
+%TODO? 6. Eggs vs komponentenmarkt
+
+

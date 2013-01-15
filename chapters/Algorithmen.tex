@@ -1,0 +1,235 @@
+%Dieses Kapitel befasst sich mit einem stufenweisen Einstieg in das Thema Algorithmen. Es sollen Praxisbeispiele implementiert werden. Eventuell wird ein Algorithmus gewählt, der in verschiedenen Sprachen beispielhaft implementiert wird. Das soll auf den Overhead mancher Programmiersprachen im Unterricht hinweisen.
+
+Ein Algorithmus ist eine endliche Menge von Regeln, die eine
+endliche Folge von Operationen zur Lösung eines Problems
+beschreibt \cite{misc:260999}. 
+
+Er ist ein schrittweises Verfahren zur Berechnung von gesuchten Ausgabegrößen aus gegebenen Eingabegrößen mit nachfolgenden Eigenschaften nach \cite{python:algo1}.
+
+\begin{description}
+	\item[deterministisch:] Ein Algorithmus ist deterministisch, wenn die Abfolge der auszuführenden Schritte eindeutig vorgegeben ist. Es existiert also ein festgelegter Ablauf. Zu jedem Zeitpunkt ist der nächste Schritt eindeutig definiert.
+	\item[determiniert:] Bei gleichen Eingangsgrößen liefert der Algorithmus immer das gleiche, eindeutige Ergebnis.
+	\item[finit:] Er ist mit endlichen Mitteln beschreibbar (natürliche Sprache, Quelltext, etc.).
+	\item[terminierend:] Der Algorithmus bricht nach endlich vielen Schritten ab.
+\end{description}
+
+%öffnen info1_komplett algodata 2006, broser http://freebits.de/cpp/uebung2/karras_ueb2.pdf und definition algorithmus
+
+Der Algorithmus ist ein Rezept, um ein Problem zu lösen. Für die Lösung eines Problems gibt es oft unterschiedliche Algorithmen, die sich in Ausführungszeit und Quelltextlänge unterscheiden (Abbildung \ref{fig:alg1}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{graphics/algorithmus.png}
+	\caption{Problem - Algorithmus - Programm}
+	\label{fig:alg1}
+\end{figure}
+
+Als Beispiel zur Erläuterung eines Algorithmus in natürlicher Sprache, wird der Euklidische Algorithmus aus \cite{python:euklid} zitiert.
+
+\begin{quote}
+{\itshape "'Nimmt man bei Vorliegen zweier ungleicher Zahlen abwechselnd immer die kleinere von der größeren weg, so müssen, wenn niemals ein Rest die vorangehende Zahl genau mißt, bis die Einheit übrig bleibt, die ursprünglichen Zahlen gegeneinander prim sein."'}
+\end{quote}	
+
+Der moderne Euklidische Algorithmus ersetzt die wiederholten Subtraktionen durch eine Division mit Rest. Das kann mit Pseudocode wie folgt (Listing \ref{python:euklid1}) beschrieben werden.
+
+\begin{lstlisting}[style=example, caption={Euklidscher Algorithmus - Pseudocode}, label=python:euklid1]
+euklid(a,b)
+  solange b ungleich 0
+      temp wird a mod b
+      a wird b
+      b wird temp
+  return a
+\end{lstlisting}
+
+Eine tatsächliche Implementierung des Algorithmus zeigt Listing \ref{python:euklid2}.
+
+\begin{lstlisting}[style=example, caption={Euklidscher Algorithmus - Python}, label=python:euklid2]
+def euklid(a,b):
+	while b > 0:
+		a, b = b, a % b
+	return a
+\end{lstlisting}
+
+Das Erlernen von grundlegenden Algorithmen ist eines der wichtigsten fachdidaktischen Ziele. Es ist nicht nur ein fachübergreifendes Konzept, sondern auch ein essentielles Werkzeug, um komplexe Problemstellungen lösen zu können. Dabei ist es wichtig, den Studierenden einen Algorithmus auch ausprobieren zu lassen. Das einfache Erläutern mit natürlicher Sprache und Pseudocode, ist zwar als Unterstützung und erste Beschreibung notwendig, hat aber nicht den entsprechenden Lerneffekt. Es muss eine Programmiersprache als Hilfsmittel angewandt werden. Dazu eignet sich natürlich Python, da man sich durch die einfache und Pseudocode-ähnliche Syntax mehr auf die Implementierung und das Verstehen des Algorithmus konzentrieren kann, als auf das Verstehen der Programmiersprache. Diese Aussage wird durch nachfolgendes Zitat aus \cite{python:chou-pyalgs} gestützt.
+
+\begin{quote}
+{\itshape "'Design and analysis of algorithms are a fundamental topic in computer science and engineering education. Many algorithms courses include programming assignments to help students better understand the algorithms. Unfortunately, the use of traditional programming languages forces students to deal with details of data structures and supporting routines, rather than algorithm design. Python represents an algorithm-oriented language that has been sorely needed in education. The advantages of Python include its textbook-like syntax and interactivity that encourages experimentation."'}
+\end{quote}	
+
+\cite{python:chou-pyalgs} spricht sogar von einer \textit{algorithmus-ortientierten} Sprache, wenngleich dieser Ausdruck etwas übertrieben erscheint. Jeder Algorithmus lässt sich in jeder beliebigen Programmierprache implementieren und zeigt die jeweiligen verschiedenen Lösungswege eines Algorithmus auf. \cite{python:chou-pyalgs} scheint damit einfach die Eignung Pythons für die praktische Anwendung von Algorithmen im Unterricht unterstreichen zu wollen.
+
+Im Folgenden werden nun zwei Algorithmen erläutert und in verschiedenen Programmiersprachen implementiert. Der Autor hat dazu die Sortieralgorithmen \emph{bubblesort} und \emph{quicksort} gewählt.
+
+\paragraph*{Bubblesort}
+
+Dieser Algorithmus verhält sich bekannterweise nicht besonders effizient. Es werden, der Reihe nach, zwei benachbarte Elemente einer Liste verglichen und vertauscht, falls diese in der falschen Reihenfolge vorliegen. Bis zur fertig sortierten Liste sind im Regelfall mehrere Durchläufe notwendig. Wird aufsteigend sortiert, steigen die größeren Zahlen wie Blasen im Wasser auf. Aus diesem Grund wurde der Algorithmus \emph{bubblesort} getauft.
+
+Trotzdem gibt es einige Gründe, gerade Bubblesort für den Unterricht auszuwählen. Diese sind modifiziert nach \cite{misc:urban}:
+
+\begin{itemize}
+	\item Es ist lehrreich zu erkennen, warum dieser Algorithmus schlecht ist.
+	\item Auf Basis des schlechten Beispiels lassen sich andere Sortieralgorithmen leichter erläutern.
+	\item Die quadratische Laufzeit $O(n^2)$ ist sofort erkennbar.
+	\item Es kann versucht werden, noch schlechtere Sortieralgorithmen zu finden. Das weckt den Ehrgeiz der Studierenden und fördert das Interesse für die Thematik.
+	\item Im Gegenzug kann an Verbesserungen des Algorithmus gearbeitet werden. Beispielsweise könnten Elemente, die einmal am oberen Ende platziert wurden, nicht mehr überprüft werden (siehe Listing \ref{python:bubblesort1} und Listing \ref{python:bubblesort2}).
+\end{itemize}
+
+\begin{lstlisting}[style=example, caption=Bubblesort mit Python, label=python:bubblesort1]
+def bubblesort(list):
+    swapped = True
+    while (swapped):
+        swapped = False
+        j = 0
+        while j < len(list) -1:
+            if list[j+1] < list[j]:
+                swapped= True
+                list[j], list[j+1]= list[j+1], list[j]
+            j = j + 1
+    return list
+\end{lstlisting}
+
+\begin{lstlisting}[style=example, caption=Verbesserter Bubblesort mit Python, label=python:bubblesort2]
+def BubbleSort(list):
+    for i in range(0, len(list)):
+        for j in range(0, len(list) - 1 - i):
+            if list[j] > list[j + 1]:
+                list[j], list[j + 1] = list[j + 1], list[j]
+    return list
+\end{lstlisting}
+
+Listing \ref{python:bubblesort1} zeigt den normalen \emph{bubblesort} Algorithmus mit Python, Listing \ref{python:bubblesort2} den verbesserten Algorithmus. Als Vergleich dazu zeigt Listing \ref{java:bubblesort} die Implementierung in Java. Dabei ist schon Overhead in der Java-Implementierung zu erkennen, obwohl die Implementierung sehr einfach ist. Um die Javavariante zu schreiben, muss der Studierende die Objektnotation und das dahinterliegende, objektorientierte Paradigma beherrschen.
+
+\begin{lstlisting}[style=example, caption=Verbesserter Bubblesort mit Java, label=java:bubblesort]
+public class BubbleSort { 
+	public static void bubblesort (int[] list){ 
+		for(int i=1; i<list.length; i++) { 
+			for(int j=0; j<list.length-i; j++) { 
+				if (list[j]>list[j+1]) swap(list, j, j+1); 
+			} 
+		} 
+	} 
+
+	private static void swap (int[] list, int i, int j) { 
+		int temp = list[i]; 
+		list[i] = list[j]; 
+		list[j] = temp; 
+	} 
+}
+\end{lstlisting}
+
+\paragraph*{Quicksort}
+
+Der \emph{quicksort} Algorithmus arbeitet nach dem Prinzip "'teile und herrsche"' (\emph{divide and conquer}). Dabei wird versucht, statt einer großen Liste, viele kleine Listen zu sortieren und diese danach wieder zusammenzufügen.
+
+\begin{enumerate}
+	\item Rekursionsabbruch bei null bis einem Element in der Liste.
+	\item Auswählen eines Elementes als \emph{Pivot} Element.
+	\item Aufteilen der Liste in zwei Teile:
+		\begin{itemize}
+			\item Liste mit Elementen größer als das Pivot
+			\item Liste mit Elementen kleiner als das Pivot
+		\end{itemize}
+	\item rekursive Anwendung auf beide Teillisten
+\end{enumerate}
+
+Die Wahl des Pivot Elementes ist entscheidend für die Effizienz des Algorithmus. Im \emph{worst-case} erhält man ein Zeitverhalten von $O(n^2)$, das Mittel ist $O(n log n)$. Das geschieht, wenn der Pivot immer so gewählt wird, dass es zu keiner gleichwertigen Aufteilung der Liste kommt. Um das zu vermeiden, wird üblicherweise die \emph{median of three} Methode zur Auswahl des Pivots gewählt. Dabei wird aus dem ersten, letzen und mittleren Element der Liste der Median gewählt, welcher als Pivot für den Sortieralgorithmus fungiert. Zwecks Einfachheit und aus Platzgründen wird in den folgenden Beispiellistings darauf verzichtet, und der Pivot als
+\begin{itemize}
+	\item zufälliges Element (Listing \ref{c:quicksort}), 
+	\item Element aus der Mitte der Liste (Listing \ref{python:quicksort_functional}), 
+	\item erstes Element (Listing \ref{python:quicksort_list}) oder
+	\item letztes Element (Listing \ref{python:quicksort})
+\end{itemize} definiert.
+
+Mit dem nachfolgendem Listing wird der Algorithmus mit C und Python implementiert.
+
+\begin{lstlisting}[style=example, caption=Quicksort mit C, label=c:quicksort]
+#include <stdlib.h>
+
+#define LEN 10
+
+void quicksort(double list[], int left, int right);
+
+int main(void) {
+  double list[LEN] = {7, 3, 1, 9, -2, 0, 16, 3, 11, 4};
+
+  quicksort(list,0,LEN-1);
+
+  return 0;
+}
+
+void swap(double list[], int i, int j) {
+  double tmp = list[i];
+  list[i] = list[j];
+  list[j] = tmp;
+}
+
+int Random(int i, int j) {
+  return i + rand() % (j-i+1);
+}
+
+void quicksort(double list[], int left, int right) {
+  int last = left, i;
+
+  if (left >= right) return;
+
+  swap(list,left,Random(left,right));
+  for (i = left + 1; i <= right; i++)
+    if (list[i] < list[left])
+      swap(list,++last,i);
+  swap(list,left,last);
+  quicksort(list,left,last-1);
+  quicksort(list,last+1,right);
+}\end{lstlisting}
+
+\begin{lstlisting}[style=example, caption=Quicksort mit Python, label=python:quicksort]
+def quicksort(list,anfang,ende):
+    if anfang<ende:
+        p = partition(list,anfang,ende)
+        quicksort(list,anfang,p-1)
+        quicksort(list,p+1,ende)
+
+def partition(list,von,bis):
+    pivot = list[bis]
+    i = von-1
+    for j in range(von,bis):
+        if list[j]<=pivot:
+            i = i+1
+            list[i],list[j] = list[j],list[i] #swap
+    list[i+1],list[bis] = list[bis],list[i+1] #swap
+    return i+1
+
+list = [7, 3, 1, 9, -2, 0, 16, 3, 11, 4]
+quicksort(list,0,len(list)-1)
+\end{lstlisting}
+
+Listing \ref{python:quicksort} lässt sich etwas verkürzen. Listing \ref{python:quicksort_functional} und \ref{python:quicksort_list} zeigen, dass ein stark verkürzter Quelltext unter Python noch lesbar bleibt.
+
+\begin{lstlisting}[style=example, caption=Quicksort mit Python (funktionales Paradigma), label=python:quicksort_functional]
+def quicksort(list):
+    if len(list)<=1: return list
+    pivot = list[len(list)/2]
+    return quicksort(filter(lambda i,p=pivot: i<p, list)) + \
+           filter(lambda i,p=pivot: i==p, list) + \
+           quicksort(filter(lambda i,p=pivot: i>p, list))
+
+list = [7, 3, 1, 9, -2, 0, 16, 3, 11, 4]
+quicksort(list)
+\end{lstlisting}
+
+\begin{lstlisting}[style=example, caption=Quicksort mit Python (list-comprehensions), label=python:quicksort_list]
+def quicksort(list):
+    if not list: return []
+    return quicksort([x for x in list if x < list[0]]) + [list[0]]+ \
+           quicksort([x for x in list[1:] if x >= list[0]])
+           
+list = [7, 3, 1, 9, -2, 0, 16, 3, 11, 4]
+quicksort(list)
+\end{lstlisting}
+
+Zugegebenerweise sieht die C Implementierung (Listing \ref{c:quicksort}) für das geübte Auge nicht viel schwieriger aus als die Python Implementierungen. Bei genauerem Hinsehen sind die Unterschiede jedoch merkbar. Konzepte wie Mainfunktion, Typen von Funktionen, Typisierung bei Variablen und Moduleinbindungen können doch zum Stolperstein werden, wenn einem Studenten die Sprache C nicht besonders geläufig ist. Python hingegen kommt mit viel weniger Grundkonzepten aus (siehe Kapitel \ref{sec:firstlanguage}). Überraschenderweise ist die Implemtierung mittels list-comprehensions (Listing \ref{python:quicksort_list}), trotz aller Kürze, noch erstaunlich lesbar und verständlich.
+
+%-verweis auf google pagerank
+%ev alten google pagerank? http://kraeutler.net/vincent/essays/google%20page%20rank%20in%20python
+
+%kryptografie: caesar	rot13? http://www.miranda.org/~jkominek/rot13/
+%KOMMT IN ANDERES KAPITEL

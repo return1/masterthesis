@@ -1,0 +1,86 @@
+%Nicht-Fokus: Featureliste.
+
+\Zope\/\footnote{Zope: http://www.zope.org/} ist ein Applikations- und Backend Server Framework, das Entwicklern erlaubt, schnell Protokolle einzubinden, Applikationen (üblicherweise webbasierte) zu entwickeln, und Konnex zwischen anderen internetbasierten Services herzustellen \cite{zope:richter}.
+
+Zope wird großteils mit Python entwickelt. Geschwindigkeitskritisches wird in C umgesetzt. Üblicherweise wird die mit Zope mitgelieferte \ZODB\ verwendet, um transaktionssicher\footnote{siehe Maillinglisteneintrag "'ZODB implementiert kein ACID"': https://mail.dzug.org/pipermail/zope/2007-June/003937.html} (Python) Objekte zu persistieren. Zope ist mit der \ZPL\/\footnote{Zope Public Licence: http://www.zope.org/Resources/ZPL/}, einer freien Softwarelizenz, verfügbar.
+
+Momentan werden zwei stabile Zope Versionen von der Community gepflegt. Mit Oktober 2006 ist Zope 2.10 die letzte stabile Version der Zope 2 Generation. Zope 3.3 ist die letzte stabile Version des neuen Zope 3. Diese Arbeit konzentriert sich auf Zope 3, wobei zuerst einige Unterschiede zu Zope 2 aufzeigt werden sollen.
+
+\subsubsection{Zope 2}
+
+Bevor Zope ins Leben gerufen wird, entwickelt die Zope Corporation\footnote{http://www.zope.com/} (ursprünglich Digital Creations) 1996 das Produkt Bobo, ein in Python entwickelter Object-Publisher, welcher Entwicklern erlaubt, Python Objekte im Web abzubilden. Bobo ist weiters eine Objektdatenbank und ein \ORB\/, der \URL\ in Objektpfade umwandelt. 1998 wird dieses Produkt als Open-Source unter dem Namen Zope veröffentlicht.\cite{zope:richter}
+
+Zope 2 erfreut sich anfangs großer Beliebtheit durch die \TTW\ Entwicklung und Administration. Komplette Projekte können per Web entwickelt werden, ohne auch nur einmal eine Kommandozeile zu sehen. Die schnelle Projektabwicklung durch die Produktivität mit Python plus die Zope Templatesprachen \DTML\ und \ZPT\ mobilisieren viele Entwickler, ihre Projekte mit Zope umzusetzen.
+
+Zope 2 hat jedoch mit einer Vielzahl von Problemen zu kämpfen. Die anfangs, vor allem bei unerfahrenen Entwicklern, sehr beliebte \TTW\ Entwicklung stößt schnell an Grenzen. So muss für fortgeschrittenere Methoden, wie etwa das Verwenden von regulären Ausdrücken, das Zope 2 Sicherheitssystem umgangen werden. Zope 2 \TTW\ wird vom Framework aus Stabilitätsgründen mit eingeschränktem Zugriff auf Pythonbibliotheken versehen. Mit Zope 3 gibt es hier keine Einschränkung, da Funktionalität mit Hilfe von Pythonpaketen implementiert wird. Innerhalb dieser Pakete kann auf die komplette Funktionalität Pythons zurückgegriffen werden. Das ist unter Zope 2 auch möglich, nur ist die Dokumentation dazu schlecht zugänglich und die Implementierung nur mit einigen Tricks möglich. Listing \ref{zope:zope2contentclass} zeigt ein Beispiel dazu: wird das Initialisieren der Klasse in Zeile 27 vergessen, ist schnell und einfach eine potentielle Sicherheitslücke produziert. Das Zope 2 Framework liefert dem Entwickler hierzu keine Hinweise oder Warnungen.
+
+\begin{lstlisting}[style=example, caption={Typische Zope 2 Content Klasse}, label=zope:zope2contentclass]
+from Globals import DTMLFile, InitializeClass
+from OFS.SimpleItem import SimpleItem
+from OFS.PropertyManager import PropertyManager
+
+class Contact(SimpleItem, PropertyManager):
+	
+	def __init__(self, first, last, address, postal_code):
+		self.manage_edit(first, last, address, postal_code)
+	
+	manage_options = (SimpleItem.manage_options +
+	PropertyManager.manage_options
+		+ ({'label': 'Edit', 'action': 'manage_main'},
+		   {'label': 'View', 'action': 'index_html' },))
+
+	security.declareProtected('Change Contacts', 'manage_main')
+	manage_main = DTMLFile('dtml/main', globals())
+	
+	security.declareProtected('View', 'index_html')
+	index_html = DTMLFile('dtml/index_html', globals())
+
+	security.declareProtected('Change Contacts', 'manage_edit')
+	def manage_edit(self, first, last, adress, postal_code, REQUEST=None):
+	...
+	if REQUEST is not None:
+		REQUEST.RESPONSE.redirect(...)
+		
+	InitializeClass(Contact)
+\end{lstlisting}
+
+Um existierende Funktionalität zu erweitern, muss unter Zope 2 das sogenannte "`Monkey-Patching"' angewandt werden.  Hierbei wird die ursprüngliche Funktionalität zur Laufzeit geändert, ohne den Originalquelltext zu verändern. Eine gefährliche Methodik, da der Monkey-Patch nach einer Änderung des Originalquelltextes, mit hoher Wahrscheinlichkeit nicht mehr funktional ist. Bei exzessiver Anwendung dieser Methodik kommt der Entwickler schnell in Teufels Küche. Konkurrierende Monkey-Patches sind schwer nachvollziehbar, die Wartung wird somit teuer erkauft. 
+
+Auch die schlechte Trennung von Inhalt, Konfiguration und Präsentation trägt einen Teil dazu bei. Unter Zope 2 muss jede Instanz einer Klasse Attribute und Methoden bereitstellen, die Zope für die Interaktion im Framework benötigt. Das führt zu überladenen Objekten, schränkt die Portierbarkeit ein und erschwert nachträgliche Erweiterungen.\cite{zope:linuxmagazine1}
+
+Trotzdem sind in den letzten Jahren hunderte von sogenannten Produkten unter Zope 2 veröffentlich worden. Die Palette reicht von einfachen Erweiterungen, wie z.B. unterschiedliche Datenbankadapter, Wikis, Blogs, bis zu e-Commerce Lösungen. Seine Praxistauglichkeit stellt Zope 2 etwa im Intranet-Einsatz der \NATO\ oder beim Webauftritt des \WWF\/\footnote{WWF: http://www.wwf.at/} unter Beweis. Auch bekannte Contentmanagementsysteme wie Plone\footnote{Plone: http://www.plone.org/} oder der \CPS\/\footnote{CPS: http://www.cps-project.org/} stützen sich auf Zope.\cite{zope:ctarticle1}
+
+Für mehr Literatur zu Zope 2 empfiehlt der Autor \cite{zope:bible}, \cite{zope:book}.
+
+\subsubsection{Zope 3}
+
+Dieses Kapitel umfasst die allgemeinen Eigenschaften und Merkmale von Zope 3. Tiefergehende Informationen und Praxisbezug sind in Kapitel \ref{sec:zope} zu finden.
+
+Das Zope 3 Projekt wird im Februar 2001 ins Leben gerufen. Die Community spricht sich für eine komplette Neuentwicklung des Frameworks aus, um die grundlegenden Schwierigkeiten mit Zope 2 auszumerzen. Seit Oktober 2005 ist Zope 3 auch für den Produktionseinsatz freigegeben.
+
+Die Komponentenarchitektur, als wichtigeste Neuerung, teilt die Zuständigkeit für Inhalt (Content), Dienste (Utilities), Sichten (Views) und Adapter auf. Sie ermöglicht es, Software in kleinen und wiederverwertbaren Bausteinen zu entwickeln. Ziel einer solchen Aufteilung ist vor allem die höhere Wartbarkeit der Software. Ein anderes Datenbank-Backend, oder ein neuer Skin für eine Webapplikation soll keine Konsequenzen auf die tatsächliche Programmlogik haben. Außerdem wird für eine gewisse Übersicht und Ordnung durch Reduzierung der Komplexität gesorgt.
+
+Auch die Wiederverwendung existierender Python-Komponenten aus den Bibliotheken gestaltet sich einfacher, als in der Vorgängerversion. Das dürfte helfen, die bisher vorhandene Spaltung zwischen Python- und Zope-Entwicklern zu überwinden \cite{zope:ixarticle1}.
+
+Damit Komponenten austauschbar bleiben, müssen ihre Schnittstellen definiert sein. Dafür zuständig sind Interfaces, die als Verträge für die Komponenten fungieren. So ist es möglich, dass unterschiedliche Implementierungen für ein Interface entwickelt werden können, da ein Interface nur das "`Was"' beschreibt, nicht aber das "`Wie"'.
+
+Zope 3 Komponenten kurz beschrieben:
+\begin{description}
+	\item[Content Komponenten] sind Datenobjekte. Die Daten sind anhand eines Schemas definiert. Ihre einzige Aufgabe besteht darin, ihre Daten zu verwalten. Das ermöglicht eine Zope-unabhängige Weiterverwendung unter Python.
+	\item[Utilities] Utilities sind kontextunabhängige Komponenten, die für bestimmte Aufgaben im Framework zuständig sind (z.B. Emailversand, Kodierung, Suche).
+	\item[Adapter] Adapter nutzen eine Komponente mit definiertem Interface, um ein neues Interface bereitzustellen. Das ermöglicht existierende Funktionalitäten zu erweitern, ohne die Originalimplementierung zu verändern.
+	\item[Views] sind Komponenten, die für die Darstellung anderer Komponenten zuständig sind. Views sind normalerweise als Kombination von Python-Code für Logik und \ZPT\ für die Präsentation definiert.
+\end{description}
+
+Die Konfiguration des Frameworks und der Applikationen erfolgt bei Zope 2 im Quelltext selbst. Veränderungen der Konfiguration hat eine Änderung des Quelltextes zur Folge. Zope 3 Konfiguration wird in seperaten \XML\/-Dateien abgelegt. Der verwendete Dialekt ist \ZCML\/.
+
+Um Entwicklern und vor allem bestehenden Applikationen die Umstellung auf Version 3 zu ermöglichen, wurde das Projekt Five (Zope 2 + Zope 3 = Five) ins Leben gerufen. Five ist ein Zope 2 Produkt, das einiges an Zope 3 Funktionalität zur Verfügung stellt. Zukünftige Zope 2 Versionen und Five werden langsam zu einer gemeinsamen Zope Version, basierend auf Zope 3, führen.
+
+Der Großteil der momentanen Zope Projekte basiert auf Version 2. Anhand des stark wachsenden Interesses in den Communityforen und Mailinglisten\footnote{Zope Users Mailingliste: http://mail.zope.org/pipermail/zope3-users/}, und der stetig steigenden Anzahl an Zope 3 Modulen im Zope Repository\footnote{Zope Repository: http://svn.zope.org/}, kann in Zukunft mit einer größeren Anzahl an Referenzen gerechnet werden. Ende 2006 sind folgende größere Projekte bekannt:
+\begin{description}
+	\item[Schooltool]\footnote{Schooltool: http://www.schooltool.org/} ist eine Applikation für die Administration einer Schule.
+	\item[Launchpad]\footnote{Launchpad: https://launchpad.net/} ist ein Framework rund um Opensource Produkte, wie die Linux Distribution Ubuntu\footnote{Ubuntu: http://www.ubuntu.com/} oder die Versionierungssoftware Bazaar\footnote{Bazaar: http://bazaar-vcs.org/}.
+\end{description}
+ 
+Weiterführende Zope 3 Literatur: \cite{zope:weitershausen}, \cite{zope:richter}
+

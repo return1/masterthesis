@@ -1,0 +1,89 @@
+%Welche Werkzeuge sind für den Unterricht geeignet? Gibt es fertiges Unterrichtsmaterial? In welcher Qualität? Wie können solche Werkzeuge in die technische Infrastrukur einer Lehranstalt eingebettet werden. Was ist dabei zu beachten?
+
+%Teaching Programming with Python and PyGame	http://tech.canterburyschool.org/pycon/teaching\_pygame.html
+
+Um Unterrichten mit Python weiter zu verbreiten, ist es unerlässlich, auf qualitativ hochwertiges Lehrmaterial und Werkzeuge zurückgreifen zu können. Schließlich sollten diese Materialen als Grundlage eines jeden Unterichtenden, von Entscheidungsträgern der Lehre abgesegnet werden. Weiters fällt es mit gutem Material leichter, das eigene Curriculum zu gestalten. Werkzeuge sind wiederum wichtig für die Durchführung des Unterrichts, wobei hier das Augenmerk auf die einfache Installation und Handhabung zu legen ist.
+
+\begin{itemize}
+	
+\item Zuerst ist \textbf{Python} selbst zu erwähnen. Die Installation unter Windows ist unkompliziert. Einzig das Zielverzeichnis der Installation muß eingestellt werden. Die Dateiendung \verb|.py| wird mit Python registriert. Die Installation umfasst zusätzlich das Python \IDLE\/, welches für das erste Programmierbeispiel sofort verwendet werden kann. Abbildung \ref{fig:idle} zeigt dazu einen Screenshot.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{graphics/IDLE.png}
+	\caption{Python IDLE unter Windows}
+	\label{fig:idle}
+\end{figure}
+
+Die Installation unter Linux ist ebenfalls einfach, denn entweder wird ein fertiges Packet der gewählten Linux-Distribution verwendet oder händisch von den Sourcen kompiliert (\verb|configure, make, make install|). Unterschiedliche Python Versionen können in getrennten Verzeichnissen installiert und nebenläufig betrieben werden.
+
+Für Materialien, Dokumentation und Hilfestellungen ist die Python Website \cite{python:website} der erste Anlaufpunkt.
+
+\item Ein speziell für Programmierneulinge zugeschnittenes Programm hat \cite{python:forkids} erarbeitet. Dessen zweite Auflage ist mit Ende 2006 gerade neu erschienen. Der Autor unterrichtet selbst an einem österreichischen Gymnasium und hat dieses Buch als Begleitbuch für den Einstieg in das Programmieren geschrieben. Anders als der Titel "'\textbf{Python für Kids}"' vermuten lässt, ist die Lektüre auch für ältere Semester geeignet, sofern diese noch Programmierneulinge sind. Natürlich ist es auch als unterstützendes Lehrmaterial zu betrachten. 
+
+\cite{python:forkids} hat für sein Buch ein eigenes Grafikmodul geschrieben. \textbf{xturtle} ist eine Erweiterung bzw. Verbesserung des \verb|turtle| Moduls. Die Idee des \verb|turtle| Moduls stammt aus der Programmiersprache Logo aus dem Jahre 1966, und ist ein Werkzeug für den Einführungsunterricht in die Programmierung. Dabei wird eine programmierbare "'Schildkröte"', die nach entsprechenden Befehlsvorgaben hin- und herlaufen kann, verwendet. Falls der Zeichenstift abgesenkt ist, zeichnet diese ihren zurückgelegten Weg auf (Abbildung \ref{fig:xturtle}).
+
+\begin{quote}
+{\itshape "'It's intended to be used in those educational situations, where an important requirement is easy access to graphics.
+"'}\cite{python:forkids}
+\end{quote}
+
+Das \verb|turtle| Modul verwendet Tkinter\footnote{Tkinter: http://wiki.python.org/moin/TkInter} für die Darstellung von Grafiken und ist momentaner Bestandteil der Python Distribution. \verb|turtle| wird voraussichtlich mit Python 2.6 von \verb|xturtle| abgelöst\footnote{Diskussion: http://mail.python.org/pipermail/python-dev/2006-June/066677.html}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{graphics/xturtle.png}
+	\caption{xturtle}
+	\label{fig:xturtle}
+\end{figure}
+
+Auf der Website des Autors\footnote{weitere Materialien: http://ada.rg16.asn-wien.ac.at/~python/} finden sich zudem andere Unterrichtsmaterialien, wie z.B. Folien für den Einführungsunterricht.
+
+\item Wolfgang Urban arbeitet ebenfalls an einem österreichischen Gymnasium und stellt auf seiner Website\footnote{Wolfgang Urban: http://www.hib-wien.at/leute/wurban/} umfassendes Material für Mathematik, Physik und Informatikunterricht zur Verfügung. Darunter implementiert er auch beispielhaft die Fibonacci-Folge in unterschiedlichen Variationen und mit verschiedenen Programmiersprachen. Mit diversen Sortieralgorithmen unter Python setzt er sich genauer auseinander.
+
+\item "'\textbf{How to Think Like a Computer Scientist}"'\cite{python:thinkCS} ist ein Lehrbuch, das unter der \GNU\ Free Documentation License verfügbar ist. Die Autoren haben dieses Buch während des Aufbaus ihres Curriculums verfasst und in weiterer Folge fortlaufend verbessert. Aufgrund des positiven Feedbacks aus aller Welt wurde das Buch für Java, Logo und C++ adaptiert. Eine zweite Version von \cite{python:thinkCS} ist derzeit in Arbeit und kann auf der Website des Projektes\footnote{Open Book Project: http://ibiblio.org/obp/thinkCS/python.php} eingesehen werden. Geplanter Fertigstellungstermin ist Anfang Juni 2007.
+
+\item Materialien für fortgeschrittene Entwickler bietet Greg Wilson mit "'\textbf{Software Carpentry}"'\footnote{Software Carpentry: http://www.swc.scipy.org/}. Der Kurs richtet sich an Softwareentwickler, die schon praktische Erfahrung in Umgang mit Projekten gesammelt haben. Basis des Kurses ist Python. Das Thema ist die Wissenschaftlichkeit der Softwareentwicklung und die Vermittlung von Techniken, die das Arbeitsleben eines Entwicklers erleichtern sollen. Python wurde für diesen Kurs gewählt, um "'den zu vermittelnden Inhalten am wenigsten im Weg zu stehen"'. Das Material ist unter einer Open-Source Lizenz verfügbar.
+
+\item Die "'\textbf{Python Bibliotheca}"'\footnote{Python Bibliotheca: http://www.ibiblio.org/obp/pyBiblio/} ist eine Lehrplattform, die Tutorials, Workshops und Lehrmaterialien für den Unterricht mit Python bietet. Unter anderem ist ein Video\footnote{Video: "'A Python Love Story"': http://www.ibiblio.org/obp/pyBiblio/pythonvideo.php} mit Interviews bekannter Python-Größen, wie Guido van Rossum, zu finden.
+
+\item \textbf{VPython}\footnote{VPython: http://vpython.org/} ist eine Sammlung von Python Klassen, die einen einfachen Zugang zu Echtzeit 3D Animationen erlaubt. Anwendungsbereich ist beispielsweise der Physikunterricht, wo das Arbeiten mit Vektoren oder physikalischen Abläufen wie Gravitation, visualisiert werden können (Abbildung \ref{fig:vpython}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{graphics/vpython.png}
+	\caption{Gravitationssimulation mit VPython}
+	\label{fig:vpython}
+\end{figure}
+
+Auch das Visualisieren von Graphen ist mit VPython möglich (Abbildung \ref{fig:vpython2}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{graphics/graph-vpython.png}
+	\caption{Darstellung eines Graphen mit VPython}
+	\label{fig:vpython2}
+\end{figure}
+
+%\item PyNassi zu unwichtig
+
+\item Mit \textbf{Tkinter}\footnote{Tkinter: http://wiki.python.org/moin/TkInter} und \textbf{wxPython}\footnote{wxPython: http://www.wxpython.org/} wird die \GUI\ Programmierung unter Python ermöglicht. Tkinter bedeutet \Tk\ Interface, ist also eine Schnittstelle zu \Tk\/, und \Tk\ ist eine \GUI\/-Bibliothek geschrieben in der Skriptsprache \Tcl\/ (man spricht dabei auch von Tcl/Tk\footnote{Tcl/Tk: http://tcl.sourceforge.net/}). Tkinter ist Bestandteil der Python-Standardbibliothek.
+wxPython ist ein Wrapper um die C++-Bibliothek wxWidgets\footnote{wxWidgets: http://wxwidgets.org/}. 
+Beide Module sind auf verschiedenen Betriebssystemen einsetzbar. Tkinter eignet sich vor wxWidgets durch die geringe Komplexität für den Einstieg in die GUI-Programmierung. wxPython skaliert besser und ist daher für die Entwicklung von komplexeren \GUI\/s geeignet.
+
+\item \textbf{Gato}\footnote{Gato: http://gato.sourceforge.net/} ermöglicht die Visualisierung von Algorithmen auf Baumstrukturen (wie z.B. Suchbaumalgorithmen, kürzester Weg, Kruskal oder Dijkstra). Das Tool wird auf der Universität Köln entwickelt und bei Kursen über Algorithmen und diskrete Mathematik verwendet (Abbildung \ref{fig:Gato}). 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{graphics/gato.png}
+	\caption{Gato}
+	\label{fig:Gato}
+\end{figure}
+
+\item Für die Entwicklung von Spielen gibt es eine Sammlung von Modulen, die unter \textbf{Pygame}\footnote{PyGame: http://www.pygame.org/} zusammengefasst sind. Pygame basiert auf der freien \SDL\/ - Bibliothek, die ein \API\ für Eingabe, Sound und Grafik zur Verfügung stellt. Damit wird ein einfacher, high-level Zugang zur Spieleprogrammierung ermöglicht. % TODO Eine genauere Diskussion zur Spieleentwicklung im Unterricht ist unter Kapitel \ref{sec:firstlanguage} zu finden.
+
+%\item Guido van Robot
+
+\end{itemize}
+
+%Zope für Webapllikations? (Djanfo turbogears?)
