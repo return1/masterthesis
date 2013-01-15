@@ -3,6 +3,7 @@ Python and Zope in Education / Python und Zope als Unterrichtswerkzeuge
 
 German master thesis 2007, UAS Technikum Wien (Vienna, Austria)
 
+<table class="docutils field-list" frame="void" rules="none"><col class="field-name" /><col class="field-body" /><tbody valign="top"><tr class="field"><th class="field-name">Amazon:</th><td class="field-body"><a class="reference external" href="https://www.amazon.de/Python-Zope-Unterrichtswerkzeuge-Dominique-Lederer/dp/3640238834">Python und Zope als Unterrichtswerkzeuge</a></td></tr><tr class="field"><th class="field-name">PDF:</th><td class="field-body"><a class="reference external" href="/static/assets/Python_und_Zope_als_Unterrichtswerkzeuge.pdf">Python und Zope als Unterrichtswerkzeuge (PDF)</a></td></tr><tr class="field"><th class="field-name">Stadtgespräche:</th><td class="field-body"><a class="reference external" href="http://www.stadtgespraeche.com/">http://www.stadtgespräche.com/</a></td></tr></tbody></table>
 
 English Abstract
 ----------------
