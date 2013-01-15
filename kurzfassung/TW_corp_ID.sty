@@ -1,0 +1,320 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%													%
+%		Autor: Andreas Drauschke                    %
+% 													%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{a4}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath,amssymb,amsfonts,amstext}
+\usepackage{graphicx,epsfig, color,parskip}
+\definecolor{hell1}{gray}{0.90}
+% \definecolor{dunkel}{gray}{0.50}
+
+% göschka will times new roman
+%\renewcommand{\familydefault}{cmss}
+
+\usepackage{times}
+\renewcommand{\familydefault}{ptm}
+
+\sloppy
+
+\renewcommand\figurename{Abb.}
+\renewcommand\tablename{Tab.}
+
+%\newcounter{subsubsubsection}[subsubsection]
+%\renewcommand{\thesubsubsubsection}{\thesubsubsection.\arabic{subsubsubsection}}
+%\newcommand{\subsubsubsection[1]}{\Large #1}
+%\renewcommand{\subsubsubsection}{\@startsection
+%{subsubsubsection}
+%{6}
+%{0mm}
+%{-\baselineskip}
+%{0.5\baselineskip}
+%{\normalfont\normalsize\itshape}}
+%\newcommand{\subsubsubsubsection}{\@startsection{subsubsubsubsection}{6}{0mm}{-\baselineskip}{0.5\baselineskip}{\normalfont\normalsize}}
+%\newcounter{subsubsubsubsection}[subsubsubsection]
+%\renewcommand{\thesubsubsubsubsection}{\thesubsubsubsection.\arabic{subsubsubsection}}
+
+% Definition des Deckblattes einer Bakkalaureatsarbeit
+\newcommand\Bakka[7]{
+\thispagestyle{empty}
+	\begin{picture}(0,0)
+	\put(210,-690){\includegraphics[width=8.0cm]{Logo.eps}}
+	\put(-3,-595){\includegraphics[width=451pt]{Welle.eps}}
+	\color{hell1}
+	\linethickness{452pt}
+	\put(222,-539){\line(0,1){606}}
+	\thicklines
+	\color{black}
+	\put(-3,-709){\framebox(451,776)[0,0]}
+	
+	\put(41,-60){\Huge\bf Bakkalaureatsarbeit}
+	\put(41,-118){zur Erlangung des akademischen Grades}
+	\put(41,-143){"'Bakkalaureus/Bakkalaurea (FH)"'}
+	\put(41,-230){\Large\bf\parbox{12.5cm}{#1}}
+	\put(41,-314){ausgeführt von}
+	\put(41,-338){\parbox[t]{12.5cm}{#2}}
+	\put(41,-362){\parbox[t]{12.5cm}{#3}}
+	\put(41,-415){Begutachter: \parbox[t]{10.1cm}{#4}}
+	\put(41,-471){\parbox[t]{12.5cm}{#5, den #6}}
+	\put(41,-524){Ausgeführt an der Fachhochschule Technikum Wien}
+	\put(41,-549){Studiengang: \parbox[t]{10.15cm}{#7}}
+	\end{picture}\newpage\setcounter{page}{1}
+}
+
+% Definition des Deckblattes einer Diplomarbeit
+\newcommand\Diplom[8]{
+\thispagestyle{empty}
+	\begin{picture}(0,0)
+	%\put(210,-690){\includegraphics[width=8.0cm]{graphics/Logo.eps}}
+	%\put(-3,-595){\includegraphics[width=451pt]{graphics/Welle.eps}}
+	\put(210,-690){\includegraphics[width=8.0cm]{graphics/Logo.pdf}}
+	\put(-3,-595){\includegraphics[width=451pt]{graphics/Welle.pdf}}
+	\color{hell1}
+	\linethickness{452pt}
+	\put(222,-539){\line(0,1){606}}
+	\thicklines
+	\color{black}
+	\put(-3,-709){\framebox(451,776)[0,0]}
+	
+	\put(41,-60){\Huge\bf Diplomarbeit}
+	\put(41,-118){zur Erlangung des akademischen Grades}
+	\put(41,-143){"Master of Science in Engineering" / "Diplomingenieur (FH)"}
+	\put(41,-230){\Large\bf\parbox{12.5cm}{#1}}
+	\put(41,-294){ausgeführt von}
+	\put(41,-318){\parbox[t]{12.5cm}{#2}}
+	\put(41,-342){\parbox[t]{12.5cm}{#3}}
+	\put(41,-395){1. Begutachter: \parbox[t]{10.1cm}{#4}}
+	\put(41,-420){2. Begutachter: \parbox[t]{10.1cm}{#5}}
+	\put(41,-471){\parbox[t]{12.5cm}{#6, den #7}}
+	\put(41,-524){Ausgeführt an der Fachhochschule Technikum Wien}
+	\put(41,-549){Studiengang: \parbox[t]{10.15cm}{#8}}
+	\end{picture}\newpage\setcounter{page}{1}
+}
+
+% Definition des Deckblattes einer Seminararbeit
+\newcommand\Seminar[7]{
+\thispagestyle{empty}
+	\begin{picture}(0,0)
+	\put(210,-690){\includegraphics[width=8.0cm]{Logo.eps}}
+	\put(-3,-595){\includegraphics[width=451pt]{Welle.eps}}
+	\color{hell1}
+	\linethickness{452pt}
+	\put(222,-539){\line(0,1){606}}
+	\thicklines
+	\color{black}
+	\put(-3,-709){\framebox(451,776)[0,0]}
+	
+	\put(41,-60){\Huge\bf Seminararbeit}
+	\put(41,-230){\Large\bf\parbox{12.5cm}{#1}}
+	\put(41,-314){ausgeführt von}
+	\put(41,-338){\parbox[t]{12.5cm}{#2}}
+	\put(41,-362){\parbox[t]{12.5cm}{#3}}
+	\put(41,-415){Begutachter: \parbox[t]{10.1cm}{#4}}
+	\put(41,-471){\parbox[t]{12.5cm}{#5, den #6}}
+	\put(41,-524){Ausgeführt an der Fachhochschule Technikum Wien}
+	\put(41,-549){Studiengang: \parbox[t]{10.15cm}{#7}}
+	\end{picture}\newpage\setcounter{page}{1}
+}
+
+
+% Definition des Deckblattes eines Laborprotokolls
+\newcommand\Labor[7]{
+\thispagestyle{empty}
+	\begin{picture}(0,0)
+	\put(210,-690){\includegraphics[width=8.0cm]{Logo.eps}}
+	\put(-3,-595){\includegraphics[width=451pt]{Welle.eps}}
+	\color{hell1}
+	\linethickness{452pt}
+	\put(222,-539){\line(0,1){606}}
+	\thicklines
+	\color{black}
+	\put(-3,-709){\framebox(451,776)[0,0]}
+	
+	\put(41,-60){\Huge\bf Laborprotokoll}
+	\put(41,-230){\Large\bf\parbox{12.5cm}{#1}}
+	\put(41,-314){ausgeführt von}
+	\put(41,-338){\parbox[t]{12.5cm}{#2}}
+	\put(41,-362){\parbox[t]{12.5cm}{#3}}
+	\put(41,-415){Begutachter: \parbox[t]{10.1cm}{#4}}
+	\put(41,-471){\parbox[t]{12.5cm}{#5, den #6}}
+	\put(41,-524){Ausgeführt an der Fachhochschule Technikum Wien}
+	\put(41,-549){Studiengang: \parbox[t]{10.15cm}{#7}}
+	\end{picture}\newpage\setcounter{page}{1}
+}
+
+% Definition des Deckblattes eines Praktikumsbericht
+\newcommand\Praktikum[7]{
+\thispagestyle{empty}
+	\begin{picture}(0,0)
+	\put(210,-690){\includegraphics[width=8.0cm]{Logo.eps}}
+	\put(-3,-595){\includegraphics[width=451pt]{Welle.eps}}
+	\color{hell1}
+	\linethickness{452pt}
+	\put(222,-539){\line(0,1){606}}
+	\thicklines
+	\color{black}
+	\put(-3,-709){\framebox(451,776)[0,0]}
+	
+	\put(41,-60){\Huge\bf Praktikumsbericht}
+	\put(41,-230){\Large\bf\parbox{12.5cm}{#1}}
+	\put(41,-314){ausgeführt von}
+	\put(41,-338){\parbox[t]{12.5cm}{#2}}
+	\put(41,-362){\parbox[t]{12.5cm}{#3}}
+	\put(41,-415){Begutachter: \parbox[t]{10.1cm}{#4}}
+	\put(41,-471){\parbox[t]{12.5cm}{#5, den #6}}
+	\put(41,-524){Ausgeführt an der Fachhochschule Technikum Wien}
+	\put(41,-549){Studiengang: \parbox[t]{10.15cm}{#7}}
+	\end{picture}\newpage\setcounter{page}{1}
+}
+
+% Diese Definitionen der Kopf- und Fußzeilen folgen 
+% im Wesentlichen den Definitionen im 
+% fancyheadings.sty Paket von Piet van Oostrum, 
+% Dept of Computer Science, University of Utrecht
+
+\def\lkopf{\@ifnextchar[{\@xlkopf}{\@ylkopf}}
+\def\@xlkopf[#1]#2{\gdef\@elkopf{#1}\gdef\@olkopf{#2}}
+\def\@ylkopf#1{\gdef\@elkopf{#1}\gdef\@olkopf{#1}}
+
+\def\ckopf{\@ifnextchar[{\@xckopf}{\@yckopf}}
+\def\@xckopf[#1]#2{\gdef\@eckopf{#1}\gdef\@ockopf{#2}}
+\def\@yckopf#1{\gdef\@eckopf{#1}\gdef\@ockopf{#1}}
+
+\def\rkopf{\@ifnextchar[{\@xrkopf}{\@yrkopf}}
+\def\@xrkopf[#1]#2{\gdef\@erkopf{#1}\gdef\@orkopf{#2}}
+\def\@yrkopf#1{\gdef\@erkopf{#1}\gdef\@orkopf{#1}}
+
+\def\lfuss{\@ifnextchar[{\@xlfuss}{\@ylfuss}}
+\def\@xlfuss[#1]#2{\gdef\@elfuss{#1}\gdef\@olfuss{#2}}
+\def\@ylfuss#1{\gdef\@elfuss{#1}\gdef\@olfuss{#1}}
+
+\def\cfuss{\@ifnextchar[{\@xcfuss}{\@ycfuss}}
+\def\@xcfuss[#1]#2{\gdef\@ecfuss{#1}\gdef\@ocfuss{#2}}
+\def\@ycfuss#1{\gdef\@ecfuss{#1}\gdef\@ocfuss{#1}}
+
+\def\rfuss{\@ifnextchar[{\@xrfuss}{\@yrfuss}}
+\def\@xrfuss[#1]#2{\gdef\@erfuss{#1}\gdef\@orfuss{#2}}
+\def\@yrfuss#1{\gdef\@erfuss{#1}\gdef\@orfuss{#1}}
+
+\newdimen\kopfliniendicke
+\newdimen\fussliniendicke
+\newdimen\plainkopfliniendicke
+\newdimen\plainfussliniendicke
+\newdimen\kopfbreite
+\newif\if@TWcorpIDplain \@TWcorpIDplainfalse
+\def\TWcorpIDplain#1#2{\if@TWcorpIDplain#1\else#2\fi}
+
+\def\TWcorpID@reset{\restorecr
+ \def\baselinestretch{1}%
+ \ifx\undefined\@newbaseline% NFSS not present; 2.09 or 2e
+  \ifx\@currsize\normalsize\@normalsize\else\@currsize\fi%
+ \else% NFSS (2.09) present
+  \@newbaseline%
+ \fi}
+
+% Initialisierung der Kopf und Fußzeilen
+\kopfliniendicke 0.5mm	% Linienbreite oben
+\fussliniendicke 0.5mm	% Linienbreite unten
+\plainkopfliniendicke\z@
+\plainfussliniendicke\z@
+
+\lkopf[\TWcorpIDplain{}{\footnotesize\leftmark}]{\TWcorpIDplain{}{}}
+\ckopf{}
+\rkopf[\TWcorpIDplain{}{}]{\TWcorpIDplain{}{\footnotesize\leftmark}}
+\lfuss[\TWcorpIDplain{}{\footnotesize Seite \thepage}]{\TWcorpIDplain{}{\footnotesize FH Technikum Wien}}
+\cfuss{}
+\rfuss[\TWcorpIDplain{}{\footnotesize FH Technikum Wien}]{\TWcorpIDplain{}{\footnotesize Seite \thepage}}
+
+\def\@TWcorpIDhead#1#2#3#4#5{#1\footnotesize\hbox to\kopfbreite{\TWcorpID@reset\vbox{\hbox
+{\footnotesize\rlap{\parbox[b]{\kopfbreite}{\raggedright#2\strut}}\hfill
+\footnotesize\parbox[b]{\kopfbreite}{\centering#3\strut}\hfill
+\llap{\footnotesize\parbox[b]{\kopfbreite}{\raggedleft#4\strut}}}\headrule}}#5}
+
+\def\@TWcorpIDfoot#1#2#3#4#5{#1\footnotesize\hbox to\kopfbreite{\TWcorpID@reset\vbox{\footrule
+\hbox{\footnotesize\rlap{\parbox[t]{\kopfbreite}{\raggedright#2\strut}}\hfill
+\footnotesize\parbox[t]{\kopfbreite}{\centering#3\strut}\hfill
+\llap{\footnotesize\parbox[t]{\kopfbreite}{\raggedleft#4\strut}}}}}#5}
+
+\def\headrule{{\if@TWcorpIDplain\kopfliniendicke\plainkopfliniendicke\fi
+\hrule\@height\kopfliniendicke\@width\kopfbreite \vskip-\kopfliniendicke}}
+
+\def\footrule{{\if@TWcorpIDplain\fussliniendicke\plainfussliniendicke\fi
+\vskip-0.3\normalbaselineskip\vskip-\fussliniendicke
+\hrule\@width\kopfbreite\@height\fussliniendicke\vskip0.3\normalbaselineskip}}
+
+\def\ps@TWcorpID{
+\def\@mkboth{\protect\markboth}
+\@ifundefined{chapter}{\def\sectionmark##1{\markboth
+{\ifnum \c@secnumdepth>\z@\fi ##1}{}}
+\def\subsectionmark##1{\markright {\ifnum \c@secnumdepth >\@ne\fi ##1}}}
+{\def\chaptermark##1{\markboth {\ifnum \c@secnumdepth>\m@ne\@chapapp\\fi ##1}{}}
+\def\sectionmark##1{\markright{\ifnum \c@secnumdepth >\z@\fi ##1}}}
+\ps@@TWcorpID
+\global\let\ps@TWcorpID\ps@@TWcorpID
+\kopfbreite\textwidth}
+\def\ps@TWcorpIDplain{\ps@TWcorpID \let\ps@plain\ps@plain@TWcorpID}
+\def\ps@plain@TWcorpID{\@TWcorpIDplaintrue\ps@@TWcorpID}
+\def\ps@@TWcorpID{
+\def\@oddhead{\footnotesize{\@TWcorpIDhead\@lodd\@olkopf\@ockopf\@orkopf\@rodd}}
+\def\@oddfoot{\footnotesize{\@TWcorpIDfoot\@lodd\@olfuss\@ocfuss\@orfuss\@rodd}}
+\def\@evenhead{\footnotesize{\@TWcorpIDhead\@rodd\@elkopf\@eckopf\@erkopf\@lodd}}
+\def\@evenfoot{\footnotesize{\@TWcorpIDfoot\@rodd\@elfuss\@ecfuss\@erfuss\@lodd}}
+}
+\def\@lodd{\if@reversemargin\hss\else\relax\fi}
+\def\@rodd{\if@reversemargin\relax\else\hss\fi}
+
+\let\latex@makecol\@makecol
+\def\@makecol{\let\topfloat\@toplist\let\botfloat\@botlist\latex@makecol}
+\def\iftopfloat#1#2{\ifx\topfloat\empty #2\else #1\fi}
+\def\ifbotfloat#1#2{\ifx\botfloat\empty #2\else #1\fi}
+\def\iffloatpage#1#2{\if@fcolmade #1\else #2\fi}
+
+%Unterscheidung zwischen eindeitigem und zweiseitigem Druck
+\if@twoside
+ \setlength{\hoffset}{0mm}
+ \setlength{\voffset}{0mm}
+ \setlength{\textheight}{240mm}
+ \setlength{\textwidth}{165mm}
+ \setlength{\oddsidemargin}{0mm}
+ \setlength{\evensidemargin}{0mm}
+ \setlength{\marginparsep}{0mm}
+ \setlength{\marginparwidth}{25mm}
+ \setlength{\topmargin}{-10mm}
+ \setlength{\headheight}{7.5mm}
+ \setlength{\headsep}{10mm}
+ \setlength{\headheight}{7.5mm}
+\else
+ \setlength{\hoffset}{0mm}
+ \setlength{\voffset}{0mm}
+ \setlength{\textheight}{240mm}
+ \setlength{\textwidth}{165mm}
+ \setlength{\oddsidemargin}{0mm}
+ \setlength{\evensidemargin}{0mm}
+ \setlength{\marginparsep}{0mm}
+ \setlength{\marginparwidth}{25mm}
+ \setlength{\topmargin}{-10mm}
+ \setlength{\headheight}{7.5mm}
+ \setlength{\headsep}{10mm}
+ \setlength{\headheight}{7.5mm}
+\fi
+
+% Anpassung der Schriftgrößen von Überschriften
+\setcounter{secnumdepth}{10}
+\setcounter{tocdepth}{10}
+\renewcommand{\section}{\@startsection{section}{1}{0mm}{-18pt}{18pt}{\bf\large}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}{-18pt}{18pt}{\large}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}{-18pt}{18pt}{\large}}
+\renewcommand{\paragraph}{\@startsection{paragraph}{4}{0mm}{-18pt}{18pt}{\large}}
+\renewcommand{\thesubparagraph}{\theparagraph.\arabic{subparagraph}}
+\renewcommand{\subparagraph}{\@startsection{subparagraph}{5}{0mm}{-18pt}{18pt}{\large}}
+
+% Neue Definition der Listen und Aufzählungen
+\renewcommand{\labelitemi}{$\m@th\bullet$}
+\renewcommand{\labelitemii}{$\m@th\bullet$}
+\renewcommand{\labelitemiii}{$\m@th\bullet$}
+\renewcommand{\labelitemiv}{$\m@th\bullet$}
+\renewcommand{\labelenumii}{\theenumii}
+\renewcommand{\theenumii}{\alph{enumii}.}
+

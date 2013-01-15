@@ -1,0 +1,70 @@
+\documentclass[12pt, oneside,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{TW_corp_ID}
+\definecolor{grau2}{gray}{0.95}
+
+\usepackage{bibgerm}
+\bibliographystyle{geralpha}
+
+\usepackage{listings}
+\renewcommand\lstlistingname{Listing}
+\renewcommand\lstlistlistingname{Listings}
+\lstdefinestyle{example} { %code listings: beispiele
+		%language=Python,
+    numbers=left, numberstyle=\scriptsize, stepnumber=1, numbersep=8pt,
+    basicstyle=\ttfamily\footnotesize,
+		backgroundcolor=\color{grau2},
+		captionpos=b,
+		showstringspaces=false,
+		tabsize=4
+		%commentstyle=\color{blue},%  Kommentar blau
+		%keywordstyle=\color{red},%   Schlüsselwörter rot
+		%stringstyle=\color{green} % typewriter type for strings
+}
+\lstdefinestyle{interpreter} {%inline interpreter beispiele
+		numbers=none,
+		tabsize=4,
+		basicstyle=\ttfamily\footnotesize,
+		moredelim=[l][{\bfseries}]{>>>},
+		moredelim=[l][{\bfseries}]{...}
+}
+
+% sollte als letztes Packet geladen werden (wenn glossary nicht verwendet wird ;) )
+\usepackage{hyperref} 
+
+\begin{document}
+\pagestyle{TWcorpID}
+
+\pagenumbering{arabic}
+
+\section*{Kurzfassung: "'Python und Zope als Unterrichtswerkzeuge"'}
+\rkopf[]{Bewerbung OCG Förderpreis FH 2008 - Dominique Lederer}
+
+	\input{Chapters/Motivation}
+
+	\section{Fundamentale Ideen als Unterrichtsprinzip}
+	\input{Chapters/Fundamentale_Ideen}
+
+	\section{Programmiersprachen im Unterricht}
+	\label{kapitel:Programmiersprachen}
+	\input{Chapters/Programmiersprachen}
+	
+	\section{Python als erste Programmiersprache?}
+	\label{sec:firstlanguage}
+	\input{Chapters/Pythonfirst}
+	
+	\section{Programmierparadigmen im Unterricht}
+	\input{Chapters/Paradigmen}				
+	
+	\section{Algorithmen}
+	\input{Chapters/Algorithmen}
+	
+	\section{Zusammenfassung}
+	\input{Chapters/Abstract}
+
+
+\newpage
+\rkopf[]{Literatur}
+\bibliography{literatur}
+
+\end{document}
